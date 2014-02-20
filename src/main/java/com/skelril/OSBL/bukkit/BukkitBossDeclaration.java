@@ -42,7 +42,7 @@ public class BukkitBossDeclaration extends BossDeclaration {
     /*
      * Boss list
      */
-    protected final Map<UUID, BukkitBoss> bosses;
+    protected final Map<UUID, BukkitBoss> bosses = new HashMap<>();
 
     public BukkitBossDeclaration(Plugin declarer) {
         super();
@@ -50,7 +50,6 @@ public class BukkitBossDeclaration extends BossDeclaration {
         assert declarer != null;
 
         this.declarer = declarer;
-        this.bosses = new HashMap<>();
 
         declarer.getServer().getPluginManager().registerEvents(new BukkitListener(this), declarer);
     }

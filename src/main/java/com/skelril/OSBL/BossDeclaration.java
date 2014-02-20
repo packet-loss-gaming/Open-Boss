@@ -34,12 +34,10 @@ public abstract class BossDeclaration {
     /*
      * Damage System Variables
      */
-    public List<Instruction> damageInstructions;
-    public List<Instruction> damagedInstructions;
+    public final List<Instruction> damageInstructions = new ArrayList<>();
+    public final List<Instruction> damagedInstructions = new ArrayList<>();
 
     public BossDeclaration() {
-        this.damageInstructions = new ArrayList<>();
-        this.damagedInstructions = new ArrayList<>();
     }
 
     /*

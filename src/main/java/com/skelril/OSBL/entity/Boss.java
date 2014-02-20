@@ -33,12 +33,10 @@ public abstract class Boss implements DamageInstructable {
     /*
      * Damage System Variables
      */
-    public List<Instruction> damageInstructions;
-    public List<Instruction> damagedInstructions;
+    public final List<Instruction> damageInstructions = new ArrayList<>();
+    public final List<Instruction> damagedInstructions = new ArrayList<>();
 
     public Boss() {
-        this.damageInstructions = new ArrayList<>();
-        this.damagedInstructions = new ArrayList<>();
     }
 
     /*
