@@ -19,7 +19,43 @@
 
 package com.skelril.OSBL;
 
+import com.skelril.OSBL.entity.Boss;
+import com.skelril.OSBL.entity.LocalEntity;
+import com.skelril.OSBL.instruction.Instruction;
+import com.skelril.OSBL.instruction.InstructionProcessor;
+import com.skelril.OSBL.util.AttackDamage;
+import com.skelril.OSBL.util.DamageSource;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class BossDeclaration {
 
+    /*
+     * Damage System Variables
+     */
+    public List<Instruction> damageInstructions;
+    public List<Instruction> damagedInstructions;
+
+    public BossDeclaration() {
+        this.damageInstructions = new ArrayList<>();
+        this.damagedInstructions = new ArrayList<>();
+    }
+
+    /*
+     * Binding System
+     */
     public abstract void bind(Boss boss);
+    public abstract void unbind(Boss boss);
+
+    /*
+     * Damage System Methods
+     */
+    public void damage(Boss attacker, LocalEntity toHit, AttackDamage damage) {
+        InstructionProcessor.process(damageInstructions);
+    }
+
+    public void damaged(Boss defender, DamageSource damager, double damage) {
+        InstructionProcessor.process(damagedInstructions);
+    }
 }
