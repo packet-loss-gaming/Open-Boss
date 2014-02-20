@@ -17,7 +17,7 @@
  * License along with OSBL.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.skelril.OSBL;
+package com.skelril.OSBL.util;
 
-public abstract class Boss {
+public abstract class DamageSource {
 }
