@@ -25,7 +25,7 @@ public class InstructionProcessor {
 
     public static void process(Collection<Instruction> instructions) {
         for (Instruction instruction : instructions) {
-            Instruction next = instruction.execute();
+            Instruction next = instruction;
             while (next != null) {
                 if (next instanceof DeathInstruction) {
                     break;
