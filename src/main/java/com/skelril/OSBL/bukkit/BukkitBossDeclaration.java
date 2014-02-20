@@ -94,9 +94,16 @@ public class BukkitBossDeclaration extends BossDeclaration {
     }
 
     @Override
-    public void processEffects(Boss boss) {
+    public void processGeneralAndPersonalEffects(Boss boss) {
         assert boss != null && boss instanceof BukkitBoss;
-        super.processEffects(boss);
+        super.processGeneralAndPersonalEffects(boss);
+    }
+
+    @Override
+    public void processAllPersonalEffects() {
+        for (Boss boss : bosses.values()) {
+            boss.processEffects();
+        }
     }
 
     @Override

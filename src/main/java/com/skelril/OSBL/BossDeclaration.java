@@ -62,10 +62,18 @@ public abstract class BossDeclaration {
     /*
      * Passive Effect System
      */
-    public void processEffects(Boss boss) {
-        InstructionProcessor.process(passiveInstructions, boss);
+    public void processGeneralEffects() {
+        InstructionProcessor.process(passiveInstructions);
+    }
+    public void processGeneralAndPersonalEffects(Boss boss) {
+        processGeneralEffects();
         boss.processEffects();
     }
+    public void processGeneralAndAllPersonalEffects() {
+        processGeneralEffects();
+        processAllPersonalEffects();
+    }
+    public abstract void processAllPersonalEffects();
 
     /*
      * Damage System Methods
