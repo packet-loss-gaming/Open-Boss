@@ -52,18 +52,18 @@ public abstract class BossDeclaration {
      * Binding System
      */
     public void bind(Boss boss) {
-        InstructionProcessor.process(bindInstructions);
+        InstructionProcessor.process(bindInstructions, boss);
     }
     public abstract Boss getBound(LocalEntity entity);
     public void unbind(Boss boss) {
-        InstructionProcessor.process(unbindInstructions);
+        InstructionProcessor.process(unbindInstructions, boss);
     }
 
     /*
      * Passive Effect System
      */
     public void processEffects(Boss boss) {
-        InstructionProcessor.process(passiveInstructions);
+        InstructionProcessor.process(passiveInstructions, boss);
         boss.processEffects();
     }
 
@@ -71,12 +71,12 @@ public abstract class BossDeclaration {
      * Damage System Methods
      */
     public void damage(Boss attacker, LocalEntity toHit, AttackDamage damage) {
-        InstructionProcessor.process(damageInstructions);
+        InstructionProcessor.process(damageInstructions, attacker, toHit, damage);
         attacker.damage(toHit, damage);
     }
 
     public void damaged(Boss defender, DamageSource damager, double damage) {
-        InstructionProcessor.process(damagedInstructions);
+        InstructionProcessor.process(damagedInstructions, defender, damager, damage);
         defender.damaged(damager, damage);
     }
 }

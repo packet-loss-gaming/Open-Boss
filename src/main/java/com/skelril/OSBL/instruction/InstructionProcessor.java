@@ -19,18 +19,29 @@
 
 package com.skelril.OSBL.instruction;
 
+import com.skelril.OSBL.entity.Boss;
+
 import java.util.Collection;
 
 public class InstructionProcessor {
 
     public static void process(Collection<Instruction> instructions) {
+        process(instructions, null);
+    }
+
+    public static void process(Collection<Instruction> instructions, Boss owner, Object... relatedObjects) {
+        final boolean hasBoundData = owner != null;
         for (Instruction instruction : instructions) {
             Instruction next = instruction;
             while (next != null) {
                 if (next instanceof DeathInstruction) {
                     break;
                 }
-                next = next.execute();
+                if (hasBoundData && instruction instanceof BoundInstruction) {
+                    next = ((BoundInstruction) next).execute(owner, relatedObjects);
+                } else {
+                    next = next.execute();
+                }
             }
         }
     }

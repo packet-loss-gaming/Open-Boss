@@ -60,7 +60,7 @@ public abstract class Boss implements DamageInstructable {
      * Passive Effect System
      */
     public void processEffects() {
-        InstructionProcessor.process(passiveInstructions);
+        InstructionProcessor.process(passiveInstructions, this);
     }
 
     /*
@@ -68,10 +68,10 @@ public abstract class Boss implements DamageInstructable {
      */
     @Override
     public void damage(LocalEntity toHit, AttackDamage damage) {
-        InstructionProcessor.process(damageInstructions);
+        InstructionProcessor.process(damageInstructions, this, toHit, damage);
     }
     @Override
     public void damaged(DamageSource damager, double damage) {
-        InstructionProcessor.process(damagedInstructions);
+        InstructionProcessor.process(damagedInstructions, this, damager, damage);
     }
 }
