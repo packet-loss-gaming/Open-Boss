@@ -17,8 +17,9 @@
  * License along with OSBL.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.skelril.OSBL.bukkit;
+package com.skelril.OSBL.bukkit.listener;
 
+import com.skelril.OSBL.bukkit.BukkitBossDeclaration;
 import com.skelril.OSBL.bukkit.entity.BukkitBoss;
 import com.skelril.OSBL.bukkit.entity.BukkitEntity;
 import com.skelril.OSBL.bukkit.util.BukkitAttackDamage;
@@ -27,7 +28,6 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByBlockEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -35,15 +35,15 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import java.util.Map;
 import java.util.UUID;
 
-public class BukkitListener implements Listener {
+public class DefaultBukkitListener implements BukkitListener {
 
     private BukkitBossDeclaration declaration;
     private Map<UUID, BukkitBoss> bossMap;
 
-    public BukkitListener(BukkitBossDeclaration declaration) {
+    public DefaultBukkitListener(BukkitBossDeclaration declaration) {
         assert declaration != null;
         this.declaration = declaration;
-        this.bossMap = declaration.bosses;
+        this.bossMap = declaration.getBosses();
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)

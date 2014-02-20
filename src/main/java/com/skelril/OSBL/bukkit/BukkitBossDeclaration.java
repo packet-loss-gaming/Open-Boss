@@ -19,18 +19,22 @@
 
 package com.skelril.OSBL.bukkit;
 
-import com.skelril.OSBL.bukkit.util.BukkitAttackDamage;
-import com.skelril.OSBL.bukkit.util.BukkitDamageSource;
-import com.skelril.OSBL.util.AttackDamage;
-import com.skelril.OSBL.util.DamageSource;
+import com.skelril.OSBL.BossDeclaration;
 import com.skelril.OSBL.bukkit.entity.BukkitBoss;
 import com.skelril.OSBL.bukkit.entity.BukkitEntity;
+import com.skelril.OSBL.bukkit.listener.BukkitListener;
+import com.skelril.OSBL.bukkit.listener.DefaultBukkitListener;
+import com.skelril.OSBL.bukkit.util.BukkitDamageSource;
 import com.skelril.OSBL.entity.Boss;
-import com.skelril.OSBL.BossDeclaration;
 import com.skelril.OSBL.entity.LocalEntity;
+import com.skelril.OSBL.util.AttackDamage;
+import com.skelril.OSBL.util.DamageSource;
 import org.bukkit.plugin.Plugin;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class BukkitBossDeclaration extends BossDeclaration {
 
@@ -42,27 +46,44 @@ public class BukkitBossDeclaration extends BossDeclaration {
     /*
      * Boss list
      */
-    protected final Map<UUID, BukkitBoss> bosses = new HashMap<>();
+    public final Map<UUID, BukkitBoss> bosses = new HashMap<>();
 
     public BukkitBossDeclaration(Plugin declarer) {
+        this(declarer, null);
+    }
+
+    public BukkitBossDeclaration(Plugin declarer, BukkitListener listener) {
         super();
 
         assert declarer != null;
 
         this.declarer = declarer;
 
-        declarer.getServer().getPluginManager().registerEvents(new BukkitListener(this), declarer);
+        if (listener == null) {
+            listener = new DefaultBukkitListener(this);
+        }
+        registerListener(listener);
+    }
+
+    private void registerListener(BukkitListener listener) {
+        declarer.getServer().getPluginManager().registerEvents(listener, declarer);
+    }
+
+    public Map<UUID, BukkitBoss> getBosses() {
+        return Collections.unmodifiableMap(bosses);
     }
 
     @Override
     public void bind(Boss boss) {
         assert boss != null && boss instanceof BukkitBoss;
+        super.bind(boss);
         bosses.put(((BukkitEntity) boss.getLocalEntity()).getBukkitEntity().getUniqueId(), (BukkitBoss) boss);
     }
 
     @Override
     public void unbind(Boss boss) {
         assert boss != null && boss instanceof BukkitBoss;
+        super.unbind(boss);
         bosses.remove(((BukkitEntity) boss.getLocalEntity()).getBukkitEntity().getUniqueId());
     }
 

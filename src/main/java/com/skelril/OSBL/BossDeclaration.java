@@ -32,19 +32,26 @@ import java.util.List;
 public abstract class BossDeclaration {
 
     /*
+     * Binding System Variables
+     */
+    public final List<Instruction> bindInstructions = new ArrayList<>();
+    public final List<Instruction> unbindInstructions = new ArrayList<>();
+
+    /*
      * Damage System Variables
      */
     public final List<Instruction> damageInstructions = new ArrayList<>();
     public final List<Instruction> damagedInstructions = new ArrayList<>();
 
-    public BossDeclaration() {
-    }
-
     /*
      * Binding System
      */
-    public abstract void bind(Boss boss);
-    public abstract void unbind(Boss boss);
+    public void bind(Boss boss) {
+        InstructionProcessor.process(bindInstructions);
+    }
+    public void unbind(Boss boss) {
+        InstructionProcessor.process(unbindInstructions);
+    }
 
     /*
      * Damage System Methods
