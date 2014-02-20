@@ -22,6 +22,6 @@ package com.skelril.OSBL.instruction;
 public class DeathInstruction implements Instruction {
     @Override
     public Instruction execute() {
-        return null;
+        return this;
     }
 }
