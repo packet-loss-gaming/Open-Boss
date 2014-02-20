@@ -17,13 +17,21 @@
  * License along with OSBL.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.skelril.OSBL.bukkit;
+package com.skelril.OSBL.instruction;
 
-import com.skelril.OSBL.Boss;
+import java.util.Collection;
 
-public class BukkitBoss extends Boss {
+public class InstructionProcessor {
 
-    public BukkitBoss() {
-        super();
+    public static void process(Collection<Instruction> instructions) {
+        for (Instruction instruction : instructions) {
+            Instruction next = instruction.execute();
+            while (next != null) {
+                if (next instanceof DeathInstruction) {
+                    break;
+                }
+                next = next.execute();
+            }
+        }
     }
 }
