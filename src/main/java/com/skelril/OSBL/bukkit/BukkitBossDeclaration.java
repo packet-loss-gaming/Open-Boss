@@ -81,6 +81,12 @@ public class BukkitBossDeclaration extends BossDeclaration {
     }
 
     @Override
+    public Boss getBound(LocalEntity entity) {
+        assert entity != null && entity instanceof BukkitEntity;
+        return bosses.get(((BukkitEntity) entity).getBukkitEntity().getUniqueId());
+    }
+
+    @Override
     public void unbind(Boss boss) {
         assert boss != null && boss instanceof BukkitBoss;
         super.unbind(boss);

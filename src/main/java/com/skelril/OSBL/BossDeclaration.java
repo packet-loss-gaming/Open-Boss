@@ -54,6 +54,7 @@ public abstract class BossDeclaration {
     public void bind(Boss boss) {
         InstructionProcessor.process(bindInstructions);
     }
+    public abstract Boss getBound(LocalEntity entity);
     public void unbind(Boss boss) {
         InstructionProcessor.process(unbindInstructions);
     }

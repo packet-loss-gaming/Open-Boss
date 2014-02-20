@@ -20,10 +20,10 @@
 package com.skelril.OSBL.bukkit.listener;
 
 import com.skelril.OSBL.bukkit.BukkitBossDeclaration;
-import com.skelril.OSBL.bukkit.entity.BukkitBoss;
 import com.skelril.OSBL.bukkit.entity.BukkitEntity;
 import com.skelril.OSBL.bukkit.util.BukkitAttackDamage;
 import com.skelril.OSBL.bukkit.util.BukkitDamageSource;
+import com.skelril.OSBL.entity.Boss;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
@@ -31,19 +31,15 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageByBlockEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-
-import java.util.Map;
-import java.util.UUID;
+import org.bukkit.event.entity.EntityDeathEvent;
 
 public class DefaultBukkitListener implements BukkitListener {
 
     private BukkitBossDeclaration declaration;
-    private Map<UUID, BukkitBoss> bossMap;
 
     public DefaultBukkitListener(BukkitBossDeclaration declaration) {
         assert declaration != null;
         this.declaration = declaration;
-        this.bossMap = declaration.getBosses();
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -51,7 +47,7 @@ public class DefaultBukkitListener implements BukkitListener {
         Entity hurt = event.getEntity();
         double damage = event.getDamage();
 
-        BukkitBoss boss = bossMap.get(hurt.getUniqueId());
+        Boss boss = declaration.getBound(new BukkitEntity<>(hurt));
 
         // A boss of this type was harmed
         if (boss != null) {
@@ -70,12 +66,22 @@ public class DefaultBukkitListener implements BukkitListener {
             declaration.damaged(boss, attacker, damage);
         } else if (event instanceof EntityDamageByEntityEvent) {
             Entity damager = ((EntityDamageByEntityEvent) event).getDamager();
-            boss = bossMap.get(damager.getUniqueId());
+            boss = declaration.getBound(new BukkitEntity<>(damager));
 
             // A boss of this type attacked
             if (boss != null && damage > 0) {
                 declaration.damage(boss, new BukkitEntity<>(hurt), new BukkitAttackDamage((EntityDamageByEntityEvent) event));
             }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onEnityDeath(EntityDeathEvent event) {
+        Entity dead = event.getEntity();
+
+        Boss boss = declaration.getBound(new BukkitEntity<>(dead));
+        if (boss != null) {
+            declaration.unbind(boss);
         }
     }
 }
