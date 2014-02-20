@@ -38,6 +38,11 @@ public abstract class BossDeclaration {
     public final List<Instruction> unbindInstructions = new ArrayList<>();
 
     /*
+     * Passive Effect System Variables
+     */
+    public final List<Instruction> passiveInstructions = new ArrayList<>();
+
+    /*
      * Damage System Variables
      */
     public final List<Instruction> damageInstructions = new ArrayList<>();
@@ -54,13 +59,23 @@ public abstract class BossDeclaration {
     }
 
     /*
+     * Passive Effect System
+     */
+    public void processEffects(Boss boss) {
+        InstructionProcessor.process(passiveInstructions);
+        boss.processEffects();
+    }
+
+    /*
      * Damage System Methods
      */
     public void damage(Boss attacker, LocalEntity toHit, AttackDamage damage) {
         InstructionProcessor.process(damageInstructions);
+        attacker.damage(toHit, damage);
     }
 
     public void damaged(Boss defender, DamageSource damager, double damage) {
         InstructionProcessor.process(damagedInstructions);
+        defender.damaged(damager, damage);
     }
 }

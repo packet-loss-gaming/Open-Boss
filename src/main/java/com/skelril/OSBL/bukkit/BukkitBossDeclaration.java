@@ -88,11 +88,16 @@ public class BukkitBossDeclaration extends BossDeclaration {
     }
 
     @Override
+    public void processEffects(Boss boss) {
+        assert boss != null && boss instanceof BukkitBoss;
+        super.processEffects(boss);
+    }
+
+    @Override
     public void damage(Boss attacker, LocalEntity toHit, AttackDamage damage) {
         assert attacker != null && attacker instanceof BukkitBoss;
         assert toHit != null && toHit instanceof BukkitEntity;
         super.damage(attacker, toHit, damage);
-        attacker.damage(toHit, damage);
     }
 
     @Override
@@ -100,6 +105,5 @@ public class BukkitBossDeclaration extends BossDeclaration {
         assert defender != null && defender instanceof BukkitBoss;
         assert damager != null && damager instanceof BukkitDamageSource;
         super.damaged(defender, damager, damage);
-        defender.damaged(damager, damage);
     }
 }

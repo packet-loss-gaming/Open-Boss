@@ -72,6 +72,11 @@ public class BukkitBoss extends Boss {
     }
 
     @Override
+    public void processEffects() {
+        super.processEffects();
+    }
+
+    @Override
     public void damage(LocalEntity toHit, AttackDamage damage) {
         assert toHit instanceof BukkitEntity;
         super.damage(toHit, damage);

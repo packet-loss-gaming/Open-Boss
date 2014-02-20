@@ -31,6 +31,11 @@ import java.util.List;
 public abstract class Boss implements DamageInstructable {
 
     /*
+     * Passive Effect System Variables
+    */
+    public final List<Instruction> passiveInstructions = new ArrayList<>();
+
+    /*
      * Damage System Variables
      */
     public final List<Instruction> damageInstructions = new ArrayList<>();
@@ -50,6 +55,13 @@ public abstract class Boss implements DamageInstructable {
      */
     public abstract void setTarget(LocalEntity target);
     public abstract LocalEntity getTarget();
+
+    /*
+     * Passive Effect System
+     */
+    public void processEffects() {
+        InstructionProcessor.process(passiveInstructions);
+    }
 
     /*
      * Damage System Methods
