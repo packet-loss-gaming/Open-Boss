@@ -21,17 +21,18 @@ package com.skelril.OSBL.bukkit.util;
 
 import com.skelril.OSBL.util.AttackDamage;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 
 public class BukkitAttackDamage extends AttackDamage {
 
-    private EntityDamageByEntityEvent event;
+    private EntityDamageEvent event;
 
-    public BukkitAttackDamage(EntityDamageByEntityEvent event) {
+    public BukkitAttackDamage(EntityDamageEvent event) {
         super();
         this.event = event;
     }
 
-    public EntityDamageByEntityEvent getBukkitEvent() {
+    public EntityDamageEvent getBukkitEvent() {
         return event;
     }
 

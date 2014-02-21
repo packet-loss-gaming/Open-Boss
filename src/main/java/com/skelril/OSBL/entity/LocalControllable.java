@@ -65,7 +65,7 @@ public abstract class LocalControllable extends LocalEntity implements DamageIns
         InstructionProcessor.process(damageInstructions, this, toHit, damage);
     }
     @Override
-    public void damaged(DamageSource damager, double damage) {
+    public void damaged(DamageSource damager, AttackDamage damage) {
         InstructionProcessor.process(damagedInstructions, this, damager, damage);
     }
 }

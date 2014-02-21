@@ -83,7 +83,7 @@ public abstract class BossDeclaration {
         attacker.damage(toHit, damage);
     }
 
-    public void damaged(LocalControllable defender, DamageSource damager, double damage) {
+    public void damaged(LocalControllable defender, DamageSource damager, AttackDamage damage) {
         InstructionProcessor.process(damagedInstructions, defender, damager, damage);
         defender.damaged(damager, damage);
     }

@@ -25,5 +25,5 @@ import com.skelril.OSBL.entity.LocalEntity;
 
 public interface DamageInstructable {
     public void damage(LocalEntity toHit, AttackDamage attackDamage);
-    public void damaged(DamageSource damager, double damage);
+    public void damaged(DamageSource damager, AttackDamage damage);
 }

@@ -45,7 +45,7 @@ public class DefaultBukkitListener implements BukkitListener {
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onEntityDamage(EntityDamageEvent event) {
         Entity hurt = event.getEntity();
-        double damage = event.getDamage();
+        BukkitAttackDamage damage = new BukkitAttackDamage(event);
 
         LocalControllable boss = declaration.getBound(new BukkitEntity<>(hurt));
 
@@ -69,8 +69,8 @@ public class DefaultBukkitListener implements BukkitListener {
             boss = declaration.getBound(new BukkitEntity<>(damager));
 
             // A boss of this type attacked
-            if (boss != null && damage > 0) {
-                declaration.damage(boss, new BukkitEntity<>(hurt), new BukkitAttackDamage((EntityDamageByEntityEvent) event));
+            if (boss != null && event.getDamage() > 0) {
+                declaration.damage(boss, new BukkitEntity<>(hurt), damage);
             }
         }
     }

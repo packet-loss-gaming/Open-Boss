@@ -115,7 +115,7 @@ public class BukkitBossDeclaration extends BossDeclaration {
     }
 
     @Override
-    public void damaged(LocalControllable defender, DamageSource damager, double damage) {
+    public void damaged(LocalControllable defender, DamageSource damager, AttackDamage damage) {
         assert defender != null && defender instanceof BukkitControllable;
         assert damager != null && damager instanceof BukkitDamageSource;
         super.damaged(defender, damager, damage);

@@ -70,7 +70,7 @@ public abstract class BukkitControllable extends LocalControllable {
     }
 
     @Override
-    public void damaged(DamageSource damager, double damage) {
+    public void damaged(DamageSource damager, AttackDamage damage) {
         assert damager instanceof BukkitDamageSource;
         super.damaged(damager, damage);
     }
