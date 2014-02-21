@@ -20,10 +20,8 @@
 package com.skelril.OSBL.bukkit;
 
 import com.skelril.OSBL.BossDeclaration;
-import com.skelril.OSBL.bukkit.entity.BukkitBoss;
 import com.skelril.OSBL.bukkit.entity.BukkitControllable;
 import com.skelril.OSBL.bukkit.entity.BukkitEntity;
-import com.skelril.OSBL.bukkit.entity.BukkitMinion;
 import com.skelril.OSBL.bukkit.listener.BukkitListener;
 import com.skelril.OSBL.bukkit.listener.DefaultBukkitListener;
 import com.skelril.OSBL.bukkit.util.BukkitDamageSource;
@@ -98,7 +96,7 @@ public class BukkitBossDeclaration extends BossDeclaration {
 
     @Override
     public void processGeneralAndPersonalEffects(LocalControllable controllable) {
-        assert controllable != null && controllable instanceof BukkitBoss;
+        assert controllable != null && controllable instanceof BukkitControllable;
         super.processGeneralAndPersonalEffects(controllable);
     }
 
@@ -111,14 +109,14 @@ public class BukkitBossDeclaration extends BossDeclaration {
 
     @Override
     public void damage(LocalControllable attacker, LocalEntity toHit, AttackDamage damage) {
-        assert attacker != null && attacker instanceof BukkitBoss;
+        assert attacker != null && attacker instanceof BukkitControllable;
         assert toHit != null && toHit instanceof BukkitEntity;
         super.damage(attacker, toHit, damage);
     }
 
     @Override
     public void damaged(LocalControllable defender, DamageSource damager, double damage) {
-        assert defender != null && defender instanceof BukkitBoss;
+        assert defender != null && defender instanceof BukkitControllable;
         assert damager != null && damager instanceof BukkitDamageSource;
         super.damaged(defender, damager, damage);
     }
