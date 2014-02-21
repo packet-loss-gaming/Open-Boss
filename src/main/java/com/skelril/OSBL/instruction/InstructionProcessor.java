@@ -19,7 +19,7 @@
 
 package com.skelril.OSBL.instruction;
 
-import com.skelril.OSBL.entity.Boss;
+import com.skelril.OSBL.entity.LocalEntity;
 
 import java.util.Collection;
 
@@ -29,7 +29,7 @@ public class InstructionProcessor {
         process(instructions, null);
     }
 
-    public static void process(Collection<Instruction> instructions, Boss owner, Object... relatedObjects) {
+    public static void process(Collection<Instruction> instructions, LocalEntity owner, Object... relatedObjects) {
         final boolean hasBoundData = owner != null;
         for (Instruction instruction : instructions) {
             Instruction next = instruction;

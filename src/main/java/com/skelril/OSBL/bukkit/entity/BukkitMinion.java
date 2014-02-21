@@ -17,13 +17,29 @@
  * License along with OSBL.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.skelril.OSBL.entity;
+package com.skelril.OSBL.bukkit.entity;
 
-public abstract class LocalEntity {
+import com.skelril.OSBL.bukkit.util.BukkitUtil;
+import com.skelril.OSBL.entity.LocalControllable;
+import com.skelril.OSBL.interfaces.Minion;
+import org.bukkit.entity.Damageable;
 
-    /*
-     * General Inquiry
-     */
-    public abstract LocalEntity getLocalEntity();
-    public abstract boolean isValid();
+public class BukkitMinion extends BukkitControllable implements Minion {
+
+    private BukkitBoss boss;
+
+    public BukkitMinion(Damageable minion, BukkitBoss boss) {
+        super(minion);
+        this.boss = boss;
+    }
+
+    @Override
+    public LocalControllable getOwningBoss() {
+        return boss;
+    }
+
+    @Override
+    public boolean equals(Object entity) {
+        return entity != null && controlled.equals(BukkitUtil.getBukkitEntity(entity));
+    }
 }

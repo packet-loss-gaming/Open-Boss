@@ -21,11 +21,14 @@ package com.skelril.OSBL.bukkit;
 
 import com.skelril.OSBL.BossDeclaration;
 import com.skelril.OSBL.bukkit.entity.BukkitBoss;
+import com.skelril.OSBL.bukkit.entity.BukkitControllable;
 import com.skelril.OSBL.bukkit.entity.BukkitEntity;
+import com.skelril.OSBL.bukkit.entity.BukkitMinion;
 import com.skelril.OSBL.bukkit.listener.BukkitListener;
 import com.skelril.OSBL.bukkit.listener.DefaultBukkitListener;
 import com.skelril.OSBL.bukkit.util.BukkitDamageSource;
-import com.skelril.OSBL.entity.Boss;
+import com.skelril.OSBL.bukkit.util.BukkitUtil;
+import com.skelril.OSBL.entity.LocalControllable;
 import com.skelril.OSBL.entity.LocalEntity;
 import com.skelril.OSBL.util.AttackDamage;
 import com.skelril.OSBL.util.DamageSource;
@@ -44,9 +47,9 @@ public class BukkitBossDeclaration extends BossDeclaration {
     private final Plugin declarer;
 
     /*
-     * Boss list
+     * Controlled list
      */
-    public final Map<UUID, BukkitBoss> bosses = new HashMap<>();
+    public final Map<UUID, BukkitControllable> controlled = new HashMap<>();
 
     public BukkitBossDeclaration(Plugin declarer) {
         this(declarer, null);
@@ -69,52 +72,52 @@ public class BukkitBossDeclaration extends BossDeclaration {
         declarer.getServer().getPluginManager().registerEvents(listener, declarer);
     }
 
-    public Map<UUID, BukkitBoss> getBosses() {
-        return Collections.unmodifiableMap(bosses);
+    public Map<UUID, BukkitControllable> getControlled() {
+        return Collections.unmodifiableMap(controlled);
     }
 
     @Override
-    public void bind(Boss boss) {
-        assert boss != null && boss instanceof BukkitBoss;
-        super.bind(boss);
-        bosses.put(((BukkitEntity) boss.getLocalEntity()).getBukkitEntity().getUniqueId(), (BukkitBoss) boss);
+    public void bind(LocalControllable controllable) {
+        assert controllable != null && controllable instanceof BukkitControllable;
+        super.bind(controllable);
+        controlled.put(BukkitUtil.grabUUID(controllable), (BukkitControllable) controllable);
     }
 
     @Override
-    public Boss getBound(LocalEntity entity) {
+    public LocalControllable getBound(LocalEntity entity) {
         assert entity != null && entity instanceof BukkitEntity;
-        return bosses.get(((BukkitEntity) entity).getBukkitEntity().getUniqueId());
+        return controlled.get(BukkitUtil.grabUUID(entity));
     }
 
     @Override
-    public void unbind(Boss boss) {
-        assert boss != null && boss instanceof BukkitBoss;
-        super.unbind(boss);
-        bosses.remove(((BukkitEntity) boss.getLocalEntity()).getBukkitEntity().getUniqueId());
+    public void unbind(LocalControllable controllable) {
+        assert controllable != null && controllable instanceof BukkitControllable;
+        super.unbind(controllable);
+        controlled.remove(BukkitUtil.grabUUID(controllable));
     }
 
     @Override
-    public void processGeneralAndPersonalEffects(Boss boss) {
-        assert boss != null && boss instanceof BukkitBoss;
-        super.processGeneralAndPersonalEffects(boss);
+    public void processGeneralAndPersonalEffects(LocalControllable controllable) {
+        assert controllable != null && controllable instanceof BukkitBoss;
+        super.processGeneralAndPersonalEffects(controllable);
     }
 
     @Override
     public void processAllPersonalEffects() {
-        for (Boss boss : bosses.values()) {
-            boss.processEffects();
+        for (LocalControllable controllable : controlled.values()) {
+            controllable.processEffects();
         }
     }
 
     @Override
-    public void damage(Boss attacker, LocalEntity toHit, AttackDamage damage) {
+    public void damage(LocalControllable attacker, LocalEntity toHit, AttackDamage damage) {
         assert attacker != null && attacker instanceof BukkitBoss;
         assert toHit != null && toHit instanceof BukkitEntity;
         super.damage(attacker, toHit, damage);
     }
 
     @Override
-    public void damaged(Boss defender, DamageSource damager, double damage) {
+    public void damaged(LocalControllable defender, DamageSource damager, double damage) {
         assert defender != null && defender instanceof BukkitBoss;
         assert damager != null && damager instanceof BukkitDamageSource;
         super.damaged(defender, damager, damage);

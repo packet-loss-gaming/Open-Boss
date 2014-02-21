@@ -20,6 +20,5 @@
 package com.skelril.OSBL.instruction;
 
 public interface Instruction {
-
     public Instruction execute();
 }

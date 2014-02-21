@@ -19,8 +19,8 @@
 
 package com.skelril.OSBL.instruction;
 
-import com.skelril.OSBL.entity.Boss;
+import com.skelril.OSBL.entity.LocalEntity;
 
 public interface BoundInstruction extends Instruction {
-    public Instruction execute(Boss owner, Object... relatedObjects);
+    public Instruction execute(LocalEntity owner, Object... relatedObjects);
 }

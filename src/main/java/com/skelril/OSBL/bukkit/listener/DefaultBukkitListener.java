@@ -23,7 +23,7 @@ import com.skelril.OSBL.bukkit.BukkitBossDeclaration;
 import com.skelril.OSBL.bukkit.entity.BukkitEntity;
 import com.skelril.OSBL.bukkit.util.BukkitAttackDamage;
 import com.skelril.OSBL.bukkit.util.BukkitDamageSource;
-import com.skelril.OSBL.entity.Boss;
+import com.skelril.OSBL.entity.LocalControllable;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
@@ -47,7 +47,7 @@ public class DefaultBukkitListener implements BukkitListener {
         Entity hurt = event.getEntity();
         double damage = event.getDamage();
 
-        Boss boss = declaration.getBound(new BukkitEntity<>(hurt));
+        LocalControllable boss = declaration.getBound(new BukkitEntity<>(hurt));
 
         // A boss of this type was harmed
         if (boss != null) {
@@ -79,7 +79,7 @@ public class DefaultBukkitListener implements BukkitListener {
     public void onEnityDeath(EntityDeathEvent event) {
         Entity dead = event.getEntity();
 
-        Boss boss = declaration.getBound(new BukkitEntity<>(dead));
+        LocalControllable boss = declaration.getBound(new BukkitEntity<>(dead));
         if (boss != null) {
             declaration.unbind(boss);
         }

@@ -19,7 +19,7 @@
 
 package com.skelril.OSBL;
 
-import com.skelril.OSBL.entity.Boss;
+import com.skelril.OSBL.entity.LocalControllable;
 import com.skelril.OSBL.entity.LocalEntity;
 import com.skelril.OSBL.instruction.Instruction;
 import com.skelril.OSBL.instruction.InstructionProcessor;
@@ -51,12 +51,12 @@ public abstract class BossDeclaration {
     /*
      * Binding System
      */
-    public void bind(Boss boss) {
-        InstructionProcessor.process(bindInstructions, boss);
+    public void bind(LocalControllable controllable) {
+        InstructionProcessor.process(bindInstructions, controllable);
     }
-    public abstract Boss getBound(LocalEntity entity);
-    public void unbind(Boss boss) {
-        InstructionProcessor.process(unbindInstructions, boss);
+    public abstract LocalControllable getBound(LocalEntity entity);
+    public void unbind(LocalControllable controllable) {
+        InstructionProcessor.process(unbindInstructions, controllable);
     }
 
     /*
@@ -65,9 +65,9 @@ public abstract class BossDeclaration {
     public void processGeneralEffects() {
         InstructionProcessor.process(passiveInstructions);
     }
-    public void processGeneralAndPersonalEffects(Boss boss) {
+    public void processGeneralAndPersonalEffects(LocalControllable controllable) {
         processGeneralEffects();
-        boss.processEffects();
+        controllable.processEffects();
     }
     public void processGeneralAndAllPersonalEffects() {
         processGeneralEffects();
@@ -78,12 +78,12 @@ public abstract class BossDeclaration {
     /*
      * Damage System Methods
      */
-    public void damage(Boss attacker, LocalEntity toHit, AttackDamage damage) {
+    public void damage(LocalControllable attacker, LocalEntity toHit, AttackDamage damage) {
         InstructionProcessor.process(damageInstructions, attacker, toHit, damage);
         attacker.damage(toHit, damage);
     }
 
-    public void damaged(Boss defender, DamageSource damager, double damage) {
+    public void damaged(LocalControllable defender, DamageSource damager, double damage) {
         InstructionProcessor.process(damagedInstructions, defender, damager, damage);
         defender.damaged(damager, damage);
     }

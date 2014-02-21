@@ -28,7 +28,7 @@ import com.skelril.OSBL.interfaces.DamageInstructable;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Boss implements DamageInstructable {
+public abstract class LocalControllable extends LocalEntity implements DamageInstructable {
 
     /*
      * Passive Effect System Variables
@@ -41,14 +41,8 @@ public abstract class Boss implements DamageInstructable {
     public final List<Instruction> damageInstructions = new ArrayList<>();
     public final List<Instruction> damagedInstructions = new ArrayList<>();
 
-    public Boss() {
+    public LocalControllable() {
     }
-
-    /*
-     * General Inquiry
-     */
-    public abstract LocalEntity getLocalEntity();
-    public abstract boolean isValid();
 
     /*
      * Targeting System
