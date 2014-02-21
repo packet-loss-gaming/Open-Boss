@@ -17,20 +17,8 @@
  * License along with OSBL.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.skelril.OSBL.bukkit.entity;
+package com.skelril.OSBL.interfaces;
 
-import com.skelril.OSBL.bukkit.util.BukkitUtil;
-import com.skelril.OSBL.interfaces.Boss;
-import org.bukkit.entity.Damageable;
+public interface Boss {
 
-public class BukkitBoss extends BukkitControllable implements Boss {
-
-    public BukkitBoss(Damageable boss) {
-        super(boss);
-    }
-
-    @Override
-    public boolean equals(Object entity) {
-        return entity != null && controlled.equals(BukkitUtil.getBukkitEntity(entity));
-    }
 }
