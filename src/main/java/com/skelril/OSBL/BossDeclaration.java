@@ -53,11 +53,15 @@ public abstract class BossDeclaration {
      */
     public void bind(LocalControllable controllable) {
         InstructionProcessor.process(bindInstructions, controllable);
+        silentBind(controllable);
     }
+    public abstract void silentBind(LocalControllable controllable);
     public abstract LocalControllable getBound(LocalEntity entity);
     public void unbind(LocalControllable controllable) {
         InstructionProcessor.process(unbindInstructions, controllable);
+        silentUnbind(controllable);
     }
+    public abstract void silentUnbind(LocalControllable controllable);
 
     /*
      * Passive Effect System

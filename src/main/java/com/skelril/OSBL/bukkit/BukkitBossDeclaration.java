@@ -75,9 +75,8 @@ public class BukkitBossDeclaration extends BossDeclaration {
     }
 
     @Override
-    public void bind(LocalControllable controllable) {
+    public void silentBind(LocalControllable controllable) {
         assert controllable != null && controllable instanceof BukkitControllable;
-        super.bind(controllable);
         controlled.put(BukkitUtil.grabUUID(controllable), (BukkitControllable) controllable);
     }
 
@@ -88,9 +87,8 @@ public class BukkitBossDeclaration extends BossDeclaration {
     }
 
     @Override
-    public void unbind(LocalControllable controllable) {
+    public void silentUnbind(LocalControllable controllable) {
         assert controllable != null && controllable instanceof BukkitControllable;
-        super.unbind(controllable);
         controlled.remove(BukkitUtil.grabUUID(controllable));
     }
 
