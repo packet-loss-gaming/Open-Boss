@@ -52,14 +52,14 @@ public abstract class BossDeclaration {
      * Binding System
      */
     public void bind(LocalControllable controllable) {
-        InstructionProcessor.process(bindInstructions, controllable);
         silentBind(controllable);
+        InstructionProcessor.process(bindInstructions, controllable);
     }
     public abstract void silentBind(LocalControllable controllable);
     public abstract LocalControllable getBound(LocalEntity entity);
     public void unbind(LocalControllable controllable) {
-        InstructionProcessor.process(unbindInstructions, controllable);
         silentUnbind(controllable);
+        InstructionProcessor.process(unbindInstructions, controllable);
     }
     public abstract void silentUnbind(LocalControllable controllable);
 
