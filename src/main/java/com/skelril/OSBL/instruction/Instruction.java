@@ -19,6 +19,8 @@
 
 package com.skelril.OSBL.instruction;
 
+import com.skelril.OSBL.entity.LocalEntity;
+
 public interface Instruction {
-    public Instruction execute();
+    public InstructionResult execute(LocalEntity owner, Object... relatedObjects);
 }

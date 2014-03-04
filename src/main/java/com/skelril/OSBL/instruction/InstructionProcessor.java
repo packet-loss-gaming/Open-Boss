@@ -30,18 +30,17 @@ public class InstructionProcessor {
     }
 
     public static void process(Collection<Instruction> instructions, LocalEntity owner, Object... relatedObjects) {
-        final boolean hasBoundData = owner != null;
         for (Instruction instruction : instructions) {
             Instruction next = instruction;
             while (next != null) {
-                if (next instanceof DeathInstruction) {
-                    break;
+                InstructionResult r = next.execute(owner, relatedObjects);
+                if (r == null) {
+                    next = null;
+                    continue;
+                } else if (r.die()) {
+                    return;
                 }
-                if (hasBoundData && instruction instanceof BoundInstruction) {
-                    next = ((BoundInstruction) next).execute(owner, relatedObjects);
-                } else {
-                    next = next.execute();
-                }
+                next = r.next();
             }
         }
     }

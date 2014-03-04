@@ -19,8 +19,26 @@
 
 package com.skelril.OSBL.instruction;
 
-import com.skelril.OSBL.entity.LocalEntity;
+public class InstructionResult {
 
-public interface BoundInstruction extends Instruction {
-    public Instruction execute(LocalEntity owner, Object... relatedObjects);
+    private Instruction next;
+    private boolean die;
+
+    public InstructionResult() {
+        next = null;
+        die = true;
+    }
+
+    public InstructionResult(Instruction next, boolean die) {
+        this.next = next;
+        this.die = die;
+    }
+
+    public Instruction next() {
+        return next;
+    }
+
+    public boolean die() {
+        return die;
+    }
 }
