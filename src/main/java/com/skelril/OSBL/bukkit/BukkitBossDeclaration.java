@@ -75,17 +75,17 @@ public class BukkitBossDeclaration extends BossDeclaration {
     }
 
     @Override
-    public void silentBind(LocalControllable controllable) {
-        assert controllable != null && controllable instanceof BukkitControllable;
-        controlled.put(BukkitUtil.grabUUID(controllable), (BukkitControllable) controllable);
-    }
-
-    @Override
     public LocalControllable getBound(LocalEntity entity) {
         assert entity != null && entity instanceof BukkitEntity;
         return controlled.get(BukkitUtil.grabUUID(entity));
     }
 
+    @Override
+    public void silentBind(LocalControllable controllable) {
+        assert controllable != null && controllable instanceof BukkitControllable;
+        controlled.put(BukkitUtil.grabUUID(controllable), (BukkitControllable) controllable);
+    }
+    
     @Override
     public void silentUnbind(LocalControllable controllable) {
         assert controllable != null && controllable instanceof BukkitControllable;

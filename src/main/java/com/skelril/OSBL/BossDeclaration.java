@@ -55,12 +55,14 @@ public abstract class BossDeclaration {
         silentBind(controllable);
         InstructionProcessor.process(bindInstructions, controllable);
     }
-    public abstract void silentBind(LocalControllable controllable);
-    public abstract LocalControllable getBound(LocalEntity entity);
     public void unbind(LocalControllable controllable) {
         silentUnbind(controllable);
         InstructionProcessor.process(unbindInstructions, controllable);
     }
+
+    public abstract LocalControllable getBound(LocalEntity entity);
+
+    public abstract void silentBind(LocalControllable controllable);
     public abstract void silentUnbind(LocalControllable controllable);
 
     /*
