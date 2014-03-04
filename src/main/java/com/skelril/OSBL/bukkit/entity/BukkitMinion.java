@@ -21,7 +21,7 @@ package com.skelril.OSBL.bukkit.entity;
 
 import com.skelril.OSBL.bukkit.util.BukkitUtil;
 import com.skelril.OSBL.entity.LocalControllable;
-import com.skelril.OSBL.interfaces.Minion;
+import com.skelril.OSBL.entity.interfaces.Minion;
 import org.bukkit.entity.Damageable;
 
 public class BukkitMinion extends BukkitControllable implements Minion {

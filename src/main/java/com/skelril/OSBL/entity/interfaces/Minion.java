@@ -17,8 +17,10 @@
  * License along with OSBL.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.skelril.OSBL.interfaces;
+package com.skelril.OSBL.entity.interfaces;
 
-public interface Boss {
+import com.skelril.OSBL.entity.LocalControllable;
 
+public interface Minion {
+    public LocalControllable getOwningBoss();
 }

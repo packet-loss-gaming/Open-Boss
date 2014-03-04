@@ -17,10 +17,13 @@
  * License along with OSBL.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.skelril.OSBL.interfaces;
+package com.skelril.OSBL.entity.interfaces;
 
-import com.skelril.OSBL.entity.LocalControllable;
+import com.skelril.OSBL.util.AttackDamage;
+import com.skelril.OSBL.util.DamageSource;
+import com.skelril.OSBL.entity.LocalEntity;
 
-public interface Minion {
-    public LocalControllable getOwningBoss();
+public interface DamageInstructable {
+    public void damage(LocalEntity toHit, AttackDamage attackDamage);
+    public void damaged(DamageSource damager, AttackDamage damage);
 }

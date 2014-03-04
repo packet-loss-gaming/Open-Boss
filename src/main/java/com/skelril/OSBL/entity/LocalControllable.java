@@ -23,7 +23,7 @@ import com.skelril.OSBL.util.AttackDamage;
 import com.skelril.OSBL.util.DamageSource;
 import com.skelril.OSBL.instruction.Instruction;
 import com.skelril.OSBL.instruction.InstructionProcessor;
-import com.skelril.OSBL.interfaces.DamageInstructable;
+import com.skelril.OSBL.entity.interfaces.DamageInstructable;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -20,7 +20,7 @@
 package com.skelril.OSBL.bukkit.entity;
 
 import com.skelril.OSBL.bukkit.util.BukkitUtil;
-import com.skelril.OSBL.interfaces.Boss;
+import com.skelril.OSBL.entity.interfaces.Boss;
 import org.bukkit.entity.Damageable;
 
 public class BukkitBoss extends BukkitControllable implements Boss {
