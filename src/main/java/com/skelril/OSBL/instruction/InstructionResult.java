@@ -29,6 +29,11 @@ public class InstructionResult {
         die = true;
     }
 
+    public InstructionResult(Instruction next) {
+        this.next = next;
+        this.die = false;
+    }
+
     public InstructionResult(Instruction next, boolean die) {
         this.next = next;
         this.die = die;
