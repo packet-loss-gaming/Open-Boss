@@ -19,34 +19,29 @@
 
 package com.skelril.OSBL.instruction;
 
-public class InstructionResult {
+public enum ResultType {
+    STANDARD,
+    TERMINAL(true, true),
+    END(false, true);
 
-    private Instruction next;
-    private ResultType resultType;
+    private final boolean executes;
+    private final boolean terminal;
 
-    public InstructionResult() {
-        this.next = null;
-        this.resultType = ResultType.END;
+    private ResultType() {
+        executes = true;
+        terminal = false;
     }
 
-    public InstructionResult(Instruction next) {
-        this.next = next;
-        this.resultType = ResultType.STANDARD;
+    private ResultType(boolean executes, boolean terminal) {
+        this.executes = executes;
+        this.terminal = terminal;
     }
 
-    public InstructionResult(Instruction next, ResultType resultType) {
-        if (!resultType.executes()) {
-            assert next == null;
-        }
-        this.next = next;
-        this.resultType = resultType;
+    public boolean executes() {
+        return executes;
     }
 
-    public Instruction next() {
-        return next;
-    }
-
-    public ResultType getResult() {
-        return resultType;
+    public boolean isTerminal() {
+        return terminal;
     }
 }

@@ -30,18 +30,18 @@ public class InstructionProcessor {
     }
 
     public static void process(Collection<Instruction> instructions, LocalEntity owner, Object... relatedObjects) {
+        boolean terminal = false;
         for (Instruction instruction : instructions) {
             Instruction next = instruction;
             while (next != null) {
                 InstructionResult r = next.execute(owner, relatedObjects);
-                if (r == null) {
-                    next = null;
-                    continue;
-                } else if (r.die()) {
-                    return;
+                if (r != null) {
+                    ResultType type = r.getResult();
+                    if (type.isTerminal()) terminal = true;
                 }
-                next = r.next();
+                next = r == null ? null : r.next();
             }
+            if (terminal) return;
         }
     }
 }
