@@ -19,11 +19,23 @@
 
 package com.skelril.OSBL.instruction;
 
-import com.skelril.OSBL.entity.LocalEntity;
+public enum InputParameter {
+    ONLY_UNDETAILED(false, true),
+    ONLY_DETAILED(true, false),
+    ALL(true, true);
 
-public abstract class Instruction {
-    public InputParameter params() {
-        return InputParameter.ONLY_DETAILED;
+    private final boolean detailed, undetailed;
+
+    InputParameter(boolean detailed, boolean undetailed) {
+        this.detailed = detailed;
+        this.undetailed = undetailed;
     }
-    public abstract InstructionResult execute(LocalEntity owner, Object... relatedObjects);
+
+    public boolean allowsDetailed() {
+        return detailed;
+    }
+
+    public boolean allowsUndetailed() {
+        return undetailed;
+    }
 }

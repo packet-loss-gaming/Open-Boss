@@ -30,18 +30,31 @@ public class InstructionProcessor {
     }
 
     public static void process(Collection<Instruction> instructions, LocalEntity owner, Object... relatedObjects) {
-        boolean terminal = false;
+        final boolean detailed = owner != null;
         for (Instruction instruction : instructions) {
-            Instruction next = instruction;
-            while (next != null) {
-                InstructionResult r = next.execute(owner, relatedObjects);
-                if (r != null) {
-                    ResultType type = r.getResult();
-                    if (type.isTerminal()) terminal = true;
-                }
-                next = r == null ? null : r.next();
-            }
-            if (terminal) return;
+            if (processChained(instruction, detailed, owner, relatedObjects)) return;
         }
+    }
+
+    private static boolean processParams(InputParameter parameter, boolean detailed) {
+        boolean allowsDetail = parameter.allowsDetailed();
+        boolean allowsUndetailed = parameter.allowsUndetailed();
+
+        return (detailed && allowsDetail) || (!detailed && allowsUndetailed);
+    }
+
+    private static boolean processChained(Instruction instruction, boolean detailed,
+                                          LocalEntity owner, Object... relatedObjects) {
+        boolean terminal = false;
+        Instruction next = instruction;
+        while (next != null && processParams(next.params(), detailed)) {
+            InstructionResult r = next.execute(owner, relatedObjects);
+            if (r != null) {
+                ResultType type = r.getResult();
+                if (type.isTerminal()) terminal = true;
+            }
+            next = r == null ? null : r.next();
+        }
+        return terminal;
     }
 }
