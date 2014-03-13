@@ -30,9 +30,8 @@ public class InstructionProcessor {
     }
 
     public static void process(Collection<Instruction> instructions, LocalEntity owner, Object... relatedObjects) {
-        final boolean detailed = owner != null;
         for (Instruction instruction : instructions) {
-            if (processChained(instruction, detailed, owner, relatedObjects)) return;
+            if (processChained(instruction, owner, relatedObjects)) return;
         }
     }
 
@@ -43,8 +42,8 @@ public class InstructionProcessor {
         return (detailed && allowsDetail) || (!detailed && allowsUndetailed);
     }
 
-    private static boolean processChained(Instruction instruction, boolean detailed,
-                                          LocalEntity owner, Object... relatedObjects) {
+    private static boolean processChained(Instruction instruction, LocalEntity owner, Object... relatedObjects) {
+        final boolean detailed = owner != null;
         boolean terminal = false;
         Instruction next = instruction;
         while (next != null && processParams(next.params(), detailed)) {
