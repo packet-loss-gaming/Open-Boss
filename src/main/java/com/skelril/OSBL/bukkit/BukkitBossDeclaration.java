@@ -32,12 +32,9 @@ import com.skelril.OSBL.util.AttackDamage;
 import com.skelril.OSBL.util.DamageSource;
 import org.bukkit.plugin.Plugin;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
-public class BukkitBossDeclaration extends BossDeclaration {
+public abstract class BukkitBossDeclaration extends BossDeclaration {
 
     /*
      * Declaring Bukkit plugin
@@ -73,6 +70,18 @@ public class BukkitBossDeclaration extends BossDeclaration {
     public Map<UUID, BukkitControllable> getControlled() {
         return Collections.unmodifiableMap(controlled);
     }
+
+    public void cleanup() {
+        Iterator<Map.Entry<UUID, BukkitControllable>> it = controlled.entrySet().iterator();
+        while (it.hasNext()) {
+            if (!it.next().getValue().isValid()) {
+                it.remove();
+            }
+        }
+    }
+
+    @Override
+    public abstract boolean matchesBind(LocalEntity entity);
 
     @Override
     public LocalControllable getBound(LocalEntity entity) {

@@ -55,6 +55,9 @@ public abstract class BossDeclaration {
         silentBind(controllable);
         InstructionProcessor.process(bindInstructions, controllable);
     }
+
+    public abstract boolean matchesBind(LocalEntity entity);
+
     public void unbind(LocalControllable controllable) {
         silentUnbind(controllable);
         InstructionProcessor.process(unbindInstructions, controllable);

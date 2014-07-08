@@ -47,7 +47,7 @@ public class DefaultBukkitListener implements BukkitListener {
         Entity hurt = event.getEntity();
         BukkitAttackDamage damage = new BukkitAttackDamage(event);
 
-        LocalControllable boss = declaration.getBound(new BukkitEntity<>(hurt));
+        LocalControllable boss = getBoss(new BukkitEntity<>(hurt));
 
         // A boss of this type was harmed
         if (boss != null) {
@@ -66,13 +66,23 @@ public class DefaultBukkitListener implements BukkitListener {
             declaration.damaged(boss, attacker, damage);
         } else if (event instanceof EntityDamageByEntityEvent) {
             Entity damager = ((EntityDamageByEntityEvent) event).getDamager();
-            boss = declaration.getBound(new BukkitEntity<>(damager));
+            boss = getBoss(new BukkitEntity<>(damager));
 
             // A boss of this type attacked
             if (boss != null && event.getDamage() > 0) {
                 declaration.damage(boss, new BukkitEntity<>(hurt), damage);
             }
         }
+    }
+
+    private LocalControllable getBoss(BukkitEntity entity) {
+        LocalControllable controllable = declaration.getBound(entity);
+        if (controllable == null && declaration.matchesBind(entity)) {
+            entity.getBukkitEntity().remove();
+            declaration.cleanup();
+            return null;
+        }
+        return controllable;
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
