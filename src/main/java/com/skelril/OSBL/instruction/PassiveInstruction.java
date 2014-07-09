@@ -19,5 +19,8 @@
 
 package com.skelril.OSBL.instruction;
 
-public interface Instruction {
+import com.skelril.OSBL.entity.LocalControllable;
+
+public abstract class PassiveInstruction implements Instruction {
+    public abstract InstructionResult<PassiveInstruction> process(LocalControllable controllable);
 }

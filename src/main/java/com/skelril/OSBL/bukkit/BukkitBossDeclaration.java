@@ -28,6 +28,7 @@ import com.skelril.OSBL.bukkit.util.BukkitDamageSource;
 import com.skelril.OSBL.bukkit.util.BukkitUtil;
 import com.skelril.OSBL.entity.LocalControllable;
 import com.skelril.OSBL.entity.LocalEntity;
+import com.skelril.OSBL.instruction.InstructionDispatch;
 import com.skelril.OSBL.util.AttackDamage;
 import com.skelril.OSBL.util.DamageSource;
 import org.bukkit.plugin.Plugin;
@@ -46,12 +47,12 @@ public abstract class BukkitBossDeclaration extends BossDeclaration {
      */
     public final Map<UUID, BukkitControllable> controlled = new HashMap<>();
 
-    public BukkitBossDeclaration(Plugin declarer) {
-        this(declarer, null);
+    public BukkitBossDeclaration(Plugin declarer, InstructionDispatch dispatch) {
+        this(declarer, dispatch, null);
     }
 
-    public BukkitBossDeclaration(Plugin declarer, BukkitListener listener) {
-        super();
+    public BukkitBossDeclaration(Plugin declarer, InstructionDispatch dispatch, BukkitListener listener) {
+        super(dispatch);
 
         assert declarer != null;
 
@@ -102,16 +103,9 @@ public abstract class BukkitBossDeclaration extends BossDeclaration {
     }
 
     @Override
-    public void processGeneralAndPersonalEffects(LocalControllable controllable) {
+    public void process(LocalControllable controllable) {
         assert controllable != null && controllable instanceof BukkitControllable;
-        super.processGeneralAndPersonalEffects(controllable);
-    }
-
-    @Override
-    public void processAllPersonalEffects() {
-        for (LocalControllable controllable : controlled.values()) {
-            controllable.processEffects();
-        }
+        super.process(controllable);
     }
 
     @Override

@@ -19,29 +19,8 @@
 
 package com.skelril.OSBL.instruction;
 
-public enum ResultType {
-    STANDARD,
-    TERMINAL(true, true),
-    END(false, true);
+import com.skelril.OSBL.entity.LocalControllable;
 
-    private final boolean executes;
-    private final boolean terminal;
-
-    private ResultType() {
-        executes = true;
-        terminal = false;
-    }
-
-    private ResultType(boolean executes, boolean terminal) {
-        this.executes = executes;
-        this.terminal = terminal;
-    }
-
-    public boolean executes() {
-        return executes;
-    }
-
-    public boolean isTerminal() {
-        return terminal;
-    }
+public abstract class UnbindInstruction implements Instruction {
+    public abstract InstructionResult<UnbindInstruction> process(LocalControllable controllable);
 }

@@ -59,11 +59,6 @@ public abstract class BukkitControllable extends LocalControllable {
     }
 
     @Override
-    public void processEffects() {
-        super.processEffects();
-    }
-
-    @Override
     public void damage(LocalEntity toHit, AttackDamage damage) {
         assert toHit instanceof BukkitEntity;
         super.damage(toHit, damage);

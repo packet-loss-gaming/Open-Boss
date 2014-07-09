@@ -19,5 +19,10 @@
 
 package com.skelril.OSBL.instruction;
 
-public interface Instruction {
+import com.skelril.OSBL.entity.LocalControllable;
+import com.skelril.OSBL.entity.LocalEntity;
+import com.skelril.OSBL.util.AttackDamage;
+
+public abstract class DamageInstruction implements Instruction {
+    public abstract InstructionResult<DamageInstruction> process(LocalControllable boss, LocalEntity toHit, AttackDamage damage);
 }

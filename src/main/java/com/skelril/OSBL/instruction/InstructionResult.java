@@ -19,34 +19,34 @@
 
 package com.skelril.OSBL.instruction;
 
-public class InstructionResult {
+public class InstructionResult<I extends Instruction> {
 
-    private Instruction next;
-    private ResultType resultType;
+    private I next;
+    private ResultState resultState;
 
     public InstructionResult() {
         this.next = null;
-        this.resultType = ResultType.END;
+        this.resultState = ResultState.END;
     }
 
-    public InstructionResult(Instruction next) {
+    public InstructionResult(I next) {
         this.next = next;
-        this.resultType = ResultType.STANDARD;
+        this.resultState = ResultState.STANDARD;
     }
 
-    public InstructionResult(Instruction next, ResultType resultType) {
-        if (!resultType.executes()) {
+    public InstructionResult(I next, ResultState resultState) {
+        if (!resultState.executes()) {
             assert next == null;
         }
         this.next = next;
-        this.resultType = resultType;
+        this.resultState = resultState;
     }
 
-    public Instruction next() {
+    public I next() {
         return next;
     }
 
-    public ResultType getResult() {
-        return resultType;
+    public ResultState getResult() {
+        return resultState;
     }
 }

@@ -19,29 +19,29 @@
 
 package com.skelril.OSBL.instruction;
 
-import java.util.Collection;
+public enum ResultState {
+    STANDARD,
+    TERMINAL(true, true),
+    END(false, true);
 
-public abstract class InstructionProcessor<I extends Instruction> {
+    private final boolean executes;
+    private final boolean terminal;
 
-    public void process(Collection<I> instructions) {
-        for (I instruction : instructions) {
-            if (processChained(instruction)) return;
-        }
+    private ResultState() {
+        executes = true;
+        terminal = false;
     }
 
-    public abstract InstructionResult<I> process(I instruction);
+    private ResultState(boolean executes, boolean terminal) {
+        this.executes = executes;
+        this.terminal = terminal;
+    }
 
-    private  boolean processChained(I instruction) {
-        boolean terminal = false;
-        I next = instruction;
-        while (next != null) {
-            InstructionResult<I> r = process(instruction);
-            if (r != null) {
-                ResultState type = r.getResult();
-                if (type.isTerminal()) terminal = true;
-            }
-            next = r == null ? null : r.next();
-        }
+    public boolean executes() {
+        return executes;
+    }
+
+    public boolean isTerminal() {
         return terminal;
     }
 }

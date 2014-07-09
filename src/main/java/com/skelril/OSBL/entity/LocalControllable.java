@@ -19,10 +19,9 @@
 
 package com.skelril.OSBL.entity;
 
+import com.skelril.OSBL.instruction.*;
 import com.skelril.OSBL.util.AttackDamage;
 import com.skelril.OSBL.util.DamageSource;
-import com.skelril.OSBL.instruction.Instruction;
-import com.skelril.OSBL.instruction.InstructionProcessor;
 import com.skelril.OSBL.entity.interfaces.DamageInstructable;
 
 import java.util.ArrayList;
@@ -30,18 +29,25 @@ import java.util.List;
 
 public abstract class LocalControllable extends LocalEntity implements DamageInstructable {
 
+    private final LocalInstructionDispatch dispatch;
+
     /*
      * Passive Effect System Variables
     */
-    public final List<Instruction> passiveInstructions = new ArrayList<>();
+    public final List<PassiveInstruction> passiveInstructions = new ArrayList<>();
 
     /*
      * Damage System Variables
      */
-    public final List<Instruction> damageInstructions = new ArrayList<>();
-    public final List<Instruction> damagedInstructions = new ArrayList<>();
+    public final List<DamageInstruction> damageInstructions = new ArrayList<>();
+    public final List<DamagedInstruction> damagedInstructions = new ArrayList<>();
 
     public LocalControllable() {
+        this(new SimpleLocalInstructionDispatch());
+    }
+
+    public LocalControllable(LocalInstructionDispatch dispatch) {
+        this.dispatch = dispatch;
     }
 
     /*
@@ -53,8 +59,8 @@ public abstract class LocalControllable extends LocalEntity implements DamageIns
     /*
      * Passive Effect System
      */
-    public void processEffects() {
-        InstructionProcessor.process(passiveInstructions, this);
+    public void process() {
+        dispatch.passive(this).process(passiveInstructions);
     }
 
     /*
@@ -62,10 +68,10 @@ public abstract class LocalControllable extends LocalEntity implements DamageIns
      */
     @Override
     public void damage(LocalEntity toHit, AttackDamage damage) {
-        InstructionProcessor.process(damageInstructions, this, toHit, damage);
+        dispatch.damage(this, toHit, damage).process(damageInstructions);
     }
     @Override
     public void damaged(DamageSource damager, AttackDamage damage) {
-        InstructionProcessor.process(damagedInstructions, this, damager, damage);
+        dispatch.damaged(this, damager, damage).process(damagedInstructions);
     }
 }
