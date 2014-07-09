@@ -17,15 +17,7 @@
  * License along with OSBL.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.skelril.OSBL.util;
+package com.skelril.OSBL.block;
 
-import com.skelril.OSBL.block.LocalBlock;
-import com.skelril.OSBL.entity.LocalEntity;
-
-public abstract class DamageSource {
-    public abstract boolean involvesEntity();
-    public abstract LocalEntity getDamagingEntity();
-
-    public abstract boolean involvesBlock();
-    public abstract LocalBlock getDamagingBlock();
+public class LocalBlock {
 }

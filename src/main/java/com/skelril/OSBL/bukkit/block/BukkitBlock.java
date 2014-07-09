@@ -17,15 +17,20 @@
  * License along with OSBL.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.skelril.OSBL.util;
+package com.skelril.OSBL.bukkit.block;
 
 import com.skelril.OSBL.block.LocalBlock;
-import com.skelril.OSBL.entity.LocalEntity;
+import org.bukkit.block.Block;
 
-public abstract class DamageSource {
-    public abstract boolean involvesEntity();
-    public abstract LocalEntity getDamagingEntity();
+public class BukkitBlock extends LocalBlock {
 
-    public abstract boolean involvesBlock();
-    public abstract LocalBlock getDamagingBlock();
+    private Block block;
+
+    public BukkitBlock(Block block) {
+        this.block = block;
+    }
+
+    public Block getBlock() {
+        return block;
+    }
 }
