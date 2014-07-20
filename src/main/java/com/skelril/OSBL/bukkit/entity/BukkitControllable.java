@@ -19,12 +19,9 @@
 
 package com.skelril.OSBL.bukkit.entity;
 
-import com.skelril.OSBL.bukkit.util.BukkitDamageSource;
 import com.skelril.OSBL.bukkit.util.BukkitUtil;
 import com.skelril.OSBL.entity.LocalControllable;
 import com.skelril.OSBL.entity.LocalEntity;
-import com.skelril.OSBL.util.AttackDamage;
-import com.skelril.OSBL.util.DamageSource;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -56,18 +53,6 @@ public abstract class BukkitControllable extends LocalControllable {
             return new BukkitEntity<>(((Monster) controlled).getTarget());
         }
         throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void damage(LocalEntity toHit, AttackDamage damage) {
-        assert toHit instanceof BukkitEntity;
-        super.damage(toHit, damage);
-    }
-
-    @Override
-    public void damaged(DamageSource damager, AttackDamage damage) {
-        assert damager instanceof BukkitDamageSource;
-        super.damaged(damager, damage);
     }
 
     @Override

@@ -20,16 +20,18 @@
 package com.skelril.OSBL.entity;
 
 import com.skelril.OSBL.instruction.*;
-import com.skelril.OSBL.util.AttackDamage;
-import com.skelril.OSBL.util.DamageSource;
-import com.skelril.OSBL.entity.interfaces.DamageInstructable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class LocalControllable extends LocalEntity implements DamageInstructable {
+public abstract class LocalControllable extends LocalEntity {
 
     private final LocalInstructionDispatch dispatch;
+
+    /*
+     * Binding System Variables
+     */
+    public final List<UnbindInstruction> unbindInstructions = new ArrayList<>();
 
     /*
      * Passive Effect System Variables
@@ -55,23 +57,4 @@ public abstract class LocalControllable extends LocalEntity implements DamageIns
      */
     public abstract void setTarget(LocalEntity target);
     public abstract LocalEntity getTarget();
-
-    /*
-     * Passive Effect System
-     */
-    public void process() {
-        dispatch.passive(this).process(passiveInstructions);
-    }
-
-    /*
-     * Damage System Methods
-     */
-    @Override
-    public void damage(LocalEntity toHit, AttackDamage damage) {
-        dispatch.damage(this, toHit, damage).process(damageInstructions);
-    }
-    @Override
-    public void damaged(DamageSource damager, AttackDamage damage) {
-        dispatch.damaged(this, damager, damage).process(damagedInstructions);
-    }
 }

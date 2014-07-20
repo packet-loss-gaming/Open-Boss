@@ -66,6 +66,7 @@ public abstract class BossDeclaration {
     public void unbind(LocalControllable controllable) {
         silentUnbind(controllable);
         dispatch.unbind(controllable).process(unbindInstructions);
+        dispatch.unbind(controllable).process(controllable.unbindInstructions);
     }
 
     public abstract LocalControllable getBound(LocalEntity entity);
@@ -78,7 +79,7 @@ public abstract class BossDeclaration {
      */
     public void process(LocalControllable controllable) {
         dispatch.passive(controllable).process(passiveInstructions);
-        controllable.process();
+        dispatch.passive(controllable).process(controllable.passiveInstructions);
     }
 
     /*
@@ -86,11 +87,11 @@ public abstract class BossDeclaration {
      */
     public void damage(LocalControllable attacker, LocalEntity toHit, AttackDamage damage) {
         dispatch.damage(attacker, toHit, damage).process(damageInstructions);
-        attacker.damage(toHit, damage);
+        dispatch.damage(attacker, toHit, damage).process(attacker.damageInstructions);
     }
 
     public void damaged(LocalControllable defender, DamageSource damager, AttackDamage damage) {
         dispatch.damaged(defender, damager, damage).process(damagedInstructions);
-        defender.damaged(damager, damage);
+        dispatch.damaged(defender, damager, damage).process(defender.damagedInstructions);
     }
 }
