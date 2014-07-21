@@ -57,7 +57,7 @@ public abstract class BossDeclaration<T extends EntityDetail> {
     /*
      * Binding System
      */
-    public void bind(LocalControllable controllable) {
+    public void bind(LocalControllable<T> controllable) {
         silentBind(controllable);
         dispatch.bind(controllable).process(bindInstructions);
     }
@@ -72,8 +72,8 @@ public abstract class BossDeclaration<T extends EntityDetail> {
 
     public abstract LocalControllable getBound(LocalEntity entity);
 
-    public abstract void silentBind(LocalControllable controllable);
-    public abstract void silentUnbind(LocalControllable controllable);
+    public abstract void silentBind(LocalControllable<T> controllable);
+    public abstract void silentUnbind(LocalControllable<T> controllable);
 
     /*
      * Passive Effect System

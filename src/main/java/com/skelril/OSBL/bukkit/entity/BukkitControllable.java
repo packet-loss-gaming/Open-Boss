@@ -28,7 +28,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 
-public abstract class BukkitControllable<T extends EntityDetail> extends LocalControllable {
+public abstract class BukkitControllable<T extends EntityDetail> extends LocalControllable<T> {
 
     protected Damageable controlled;
 
