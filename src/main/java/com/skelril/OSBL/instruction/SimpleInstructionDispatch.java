@@ -19,24 +19,25 @@
 
 package com.skelril.OSBL.instruction;
 
+import com.skelril.OSBL.entity.EntityDetail;
 import com.skelril.OSBL.entity.LocalControllable;
 
-public class SimpleInstructionDispatch extends SimpleLocalInstructionDispatch implements InstructionDispatch {
+public class SimpleInstructionDispatch<T extends EntityDetail> extends SimpleLocalInstructionDispatch<T> implements InstructionDispatch<T> {
     @Override
-    public InstructionProcessor<BindInstruction> bind(LocalControllable controllable) {
-        return new InstructionProcessor<BindInstruction>() {
+    public InstructionProcessor<BindInstruction<T>> bind(LocalControllable controllable) {
+        return new InstructionProcessor<BindInstruction<T>>() {
             @Override
-            public InstructionResult<BindInstruction> process(BindInstruction instruction) {
+            public InstructionResult<BindInstruction<T>> process(BindInstruction<T> instruction) {
                 return instruction.process(controllable);
             }
         };
     }
 
     @Override
-    public InstructionProcessor<UnbindInstruction> unbind(LocalControllable controllable) {
-        return new InstructionProcessor<UnbindInstruction>() {
+    public InstructionProcessor<UnbindInstruction<T>> unbind(LocalControllable controllable) {
+        return new InstructionProcessor<UnbindInstruction<T>>() {
             @Override
-            public InstructionResult<UnbindInstruction> process(UnbindInstruction instruction) {
+            public InstructionResult<UnbindInstruction<T>> process(UnbindInstruction<T> instruction) {
                 return instruction.process(controllable);
             }
         };

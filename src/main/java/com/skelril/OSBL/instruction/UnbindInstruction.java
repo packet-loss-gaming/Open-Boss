@@ -19,8 +19,9 @@
 
 package com.skelril.OSBL.instruction;
 
+import com.skelril.OSBL.entity.EntityDetail;
 import com.skelril.OSBL.entity.LocalControllable;
 
-public abstract class UnbindInstruction implements Instruction {
-    public abstract InstructionResult<UnbindInstruction> process(LocalControllable controllable);
+public abstract class UnbindInstruction<T extends EntityDetail> implements Instruction<T> {
+    public abstract InstructionResult<UnbindInstruction<T>> process(LocalControllable controllable);
 }

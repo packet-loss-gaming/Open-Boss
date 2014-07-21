@@ -19,9 +19,10 @@
 
 package com.skelril.OSBL.instruction;
 
+import com.skelril.OSBL.entity.EntityDetail;
 import com.skelril.OSBL.entity.LocalControllable;
 
-public interface InstructionDispatch extends LocalInstructionDispatch {
-    public InstructionProcessor<BindInstruction> bind(LocalControllable controllable);
-    public InstructionProcessor<UnbindInstruction> unbind(LocalControllable controllable);
+public interface InstructionDispatch<T extends EntityDetail> extends LocalInstructionDispatch<T> {
+    public InstructionProcessor<BindInstruction<T>> bind(LocalControllable controllable);
+    public InstructionProcessor<UnbindInstruction<T>> unbind(LocalControllable controllable);
 }

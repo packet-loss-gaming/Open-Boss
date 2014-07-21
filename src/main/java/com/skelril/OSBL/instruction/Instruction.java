@@ -19,5 +19,7 @@
 
 package com.skelril.OSBL.instruction;
 
-public interface Instruction {
+import com.skelril.OSBL.entity.EntityDetail;
+
+public interface Instruction<T extends EntityDetail> {
 }

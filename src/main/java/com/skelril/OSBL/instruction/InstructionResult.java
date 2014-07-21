@@ -19,7 +19,7 @@
 
 package com.skelril.OSBL.instruction;
 
-public class InstructionResult<I extends Instruction> {
+public class InstructionResult<I extends Instruction<?>> {
 
     private I next;
     private ResultState resultState;

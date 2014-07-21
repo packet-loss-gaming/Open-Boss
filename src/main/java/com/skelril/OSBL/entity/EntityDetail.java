@@ -17,11 +17,7 @@
  * License along with OSBL.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.skelril.OSBL.instruction;
+package com.skelril.OSBL.entity;
 
-import com.skelril.OSBL.entity.EntityDetail;
-import com.skelril.OSBL.entity.LocalControllable;
-
-public abstract class PassiveInstruction<T extends EntityDetail> implements Instruction<T> {
-    public abstract InstructionResult<PassiveInstruction<T>> process(LocalControllable controllable);
+public interface EntityDetail {
 }

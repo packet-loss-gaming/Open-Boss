@@ -19,6 +19,8 @@
 
 package com.skelril.OSBL.entity.interfaces;
 
-public interface Boss {
+import com.skelril.OSBL.entity.EntityDetail;
+
+public interface Boss<T extends EntityDetail> {
 
 }

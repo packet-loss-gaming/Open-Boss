@@ -19,37 +19,38 @@
 
 package com.skelril.OSBL.instruction;
 
+import com.skelril.OSBL.entity.EntityDetail;
 import com.skelril.OSBL.entity.LocalControllable;
 import com.skelril.OSBL.entity.LocalEntity;
 import com.skelril.OSBL.util.AttackDamage;
 import com.skelril.OSBL.util.DamageSource;
 
-public class SimpleLocalInstructionDispatch implements LocalInstructionDispatch {
+public class SimpleLocalInstructionDispatch<T extends EntityDetail> implements LocalInstructionDispatch<T> {
     @Override
-    public InstructionProcessor<PassiveInstruction> passive(LocalControllable boss) {
-        return new InstructionProcessor<PassiveInstruction>() {
+    public InstructionProcessor<PassiveInstruction<T>> passive(LocalControllable boss) {
+        return new InstructionProcessor<PassiveInstruction<T>>() {
             @Override
-            public InstructionResult<PassiveInstruction> process(PassiveInstruction instruction) {
+            public InstructionResult<PassiveInstruction<T>> process(PassiveInstruction<T> instruction) {
                 return instruction.process(boss);
             }
         };
     }
 
     @Override
-    public InstructionProcessor<DamageInstruction> damage(LocalControllable boss, LocalEntity toHit, AttackDamage damage) {
-        return new InstructionProcessor<DamageInstruction>() {
+    public InstructionProcessor<DamageInstruction<T>> damage(LocalControllable boss, LocalEntity toHit, AttackDamage damage) {
+        return new InstructionProcessor<DamageInstruction<T>>() {
             @Override
-            public InstructionResult<DamageInstruction> process(DamageInstruction instruction) {
+            public InstructionResult<DamageInstruction<T>> process(DamageInstruction<T> instruction) {
                 return instruction.process(boss, toHit, damage);
             }
         };
     }
 
     @Override
-    public InstructionProcessor<DamagedInstruction> damaged(LocalControllable boss, DamageSource hitBy, AttackDamage damage) {
-        return new InstructionProcessor<DamagedInstruction>() {
+    public InstructionProcessor<DamagedInstruction<T>> damaged(LocalControllable boss, DamageSource hitBy, AttackDamage damage) {
+        return new InstructionProcessor<DamagedInstruction<T>>() {
             @Override
-            public InstructionResult<DamagedInstruction> process(DamagedInstruction instruction) {
+            public InstructionResult<DamagedInstruction<T>> process(DamagedInstruction<T> instruction) {
                 return instruction.process(boss, hitBy, damage);
             }
         };

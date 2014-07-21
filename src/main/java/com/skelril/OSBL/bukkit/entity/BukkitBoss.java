@@ -20,13 +20,14 @@
 package com.skelril.OSBL.bukkit.entity;
 
 import com.skelril.OSBL.bukkit.util.BukkitUtil;
+import com.skelril.OSBL.entity.EntityDetail;
 import com.skelril.OSBL.entity.interfaces.Boss;
 import org.bukkit.entity.Damageable;
 
-public class BukkitBoss extends BukkitControllable implements Boss {
+public class BukkitBoss<T extends EntityDetail> extends BukkitControllable<T> implements Boss {
 
-    public BukkitBoss(Damageable boss) {
-        super(boss);
+    public BukkitBoss(Damageable boss, T detail) {
+        super(boss, detail);
     }
 
     @Override

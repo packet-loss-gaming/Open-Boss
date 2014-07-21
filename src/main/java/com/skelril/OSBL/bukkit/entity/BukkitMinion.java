@@ -20,16 +20,17 @@
 package com.skelril.OSBL.bukkit.entity;
 
 import com.skelril.OSBL.bukkit.util.BukkitUtil;
+import com.skelril.OSBL.entity.EntityDetail;
 import com.skelril.OSBL.entity.LocalControllable;
 import com.skelril.OSBL.entity.interfaces.Minion;
 import org.bukkit.entity.Damageable;
 
-public class BukkitMinion extends BukkitControllable implements Minion {
+public class BukkitMinion<T extends EntityDetail> extends BukkitControllable<T> implements Minion {
 
-    private BukkitBoss boss;
+    private BukkitBoss<T> boss;
 
-    public BukkitMinion(Damageable minion, BukkitBoss boss) {
-        super(minion);
+    public BukkitMinion(Damageable minion, BukkitBoss<T> boss, T detail) {
+        super(minion, detail);
         this.boss = boss;
     }
 

@@ -19,6 +19,7 @@
 
 package com.skelril.OSBL;
 
+import com.skelril.OSBL.entity.EntityDetail;
 import com.skelril.OSBL.entity.LocalControllable;
 import com.skelril.OSBL.entity.LocalEntity;
 import com.skelril.OSBL.instruction.*;
@@ -28,28 +29,28 @@ import com.skelril.OSBL.util.DamageSource;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class BossDeclaration {
+public abstract class BossDeclaration<T extends EntityDetail> {
 
-    private final InstructionDispatch dispatch;
+    private final InstructionDispatch<T> dispatch;
 
     /*
      * Binding System Variables
      */
-    public final List<BindInstruction> bindInstructions = new ArrayList<>();
-    public final List<UnbindInstruction> unbindInstructions = new ArrayList<>();
+    public final List<BindInstruction<T>> bindInstructions = new ArrayList<>();
+    public final List<UnbindInstruction<T>> unbindInstructions = new ArrayList<>();
 
     /*
      * Passive Effect System Variables
      */
-    public final List<PassiveInstruction> passiveInstructions = new ArrayList<>();
+    public final List<PassiveInstruction<T>> passiveInstructions = new ArrayList<>();
 
     /*
      * Damage System Variables
      */
-    public final List<DamageInstruction> damageInstructions = new ArrayList<>();
-    public final List<DamagedInstruction> damagedInstructions = new ArrayList<>();
+    public final List<DamageInstruction<T>> damageInstructions = new ArrayList<>();
+    public final List<DamagedInstruction<T>> damagedInstructions = new ArrayList<>();
 
-    public BossDeclaration(InstructionDispatch dispatch) {
+    public BossDeclaration(InstructionDispatch<T> dispatch) {
         this.dispatch = dispatch;
     }
 
@@ -63,7 +64,7 @@ public abstract class BossDeclaration {
 
     public abstract boolean matchesBind(LocalEntity entity);
 
-    public void unbind(LocalControllable controllable) {
+    public void unbind(LocalControllable<T> controllable) {
         silentUnbind(controllable);
         dispatch.unbind(controllable).process(unbindInstructions);
         dispatch.unbind(controllable).process(controllable.unbindInstructions);
@@ -77,7 +78,7 @@ public abstract class BossDeclaration {
     /*
      * Passive Effect System
      */
-    public void process(LocalControllable controllable) {
+    public void process(LocalControllable<T> controllable) {
         dispatch.passive(controllable).process(passiveInstructions);
         dispatch.passive(controllable).process(controllable.passiveInstructions);
     }
@@ -85,12 +86,12 @@ public abstract class BossDeclaration {
     /*
      * Damage System Methods
      */
-    public void damage(LocalControllable attacker, LocalEntity toHit, AttackDamage damage) {
+    public void damage(LocalControllable<T> attacker, LocalEntity toHit, AttackDamage damage) {
         dispatch.damage(attacker, toHit, damage).process(damageInstructions);
         dispatch.damage(attacker, toHit, damage).process(attacker.damageInstructions);
     }
 
-    public void damaged(LocalControllable defender, DamageSource damager, AttackDamage damage) {
+    public void damaged(LocalControllable<T> defender, DamageSource damager, AttackDamage damage) {
         dispatch.damaged(defender, damager, damage).process(damagedInstructions);
         dispatch.damaged(defender, damager, damage).process(defender.damagedInstructions);
     }

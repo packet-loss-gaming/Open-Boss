@@ -24,32 +24,28 @@ import com.skelril.OSBL.instruction.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class LocalControllable extends LocalEntity {
+public abstract class LocalControllable<T extends EntityDetail> extends LocalEntity {
 
-    private final LocalInstructionDispatch dispatch;
+    private final T detail;
 
     /*
      * Binding System Variables
      */
-    public final List<UnbindInstruction> unbindInstructions = new ArrayList<>();
+    public final List<UnbindInstruction<T>> unbindInstructions = new ArrayList<>();
 
     /*
      * Passive Effect System Variables
     */
-    public final List<PassiveInstruction> passiveInstructions = new ArrayList<>();
+    public final List<PassiveInstruction<T>> passiveInstructions = new ArrayList<>();
 
     /*
      * Damage System Variables
      */
-    public final List<DamageInstruction> damageInstructions = new ArrayList<>();
-    public final List<DamagedInstruction> damagedInstructions = new ArrayList<>();
+    public final List<DamageInstruction<T>> damageInstructions = new ArrayList<>();
+    public final List<DamagedInstruction<T>> damagedInstructions = new ArrayList<>();
 
-    public LocalControllable() {
-        this(new SimpleLocalInstructionDispatch());
-    }
-
-    public LocalControllable(LocalInstructionDispatch dispatch) {
-        this.dispatch = dispatch;
+    public LocalControllable(T detail) {
+        this.detail = detail;
     }
 
     /*
@@ -57,4 +53,11 @@ public abstract class LocalControllable extends LocalEntity {
      */
     public abstract void setTarget(LocalEntity target);
     public abstract LocalEntity getTarget();
+
+    /*
+     * Detail System
+     */
+    public T getDetail() {
+        return detail;
+    }
 }

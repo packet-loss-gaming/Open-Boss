@@ -21,7 +21,7 @@ package com.skelril.OSBL.instruction;
 
 import java.util.Collection;
 
-public abstract class InstructionProcessor<I extends Instruction> {
+public abstract class InstructionProcessor<I extends Instruction<?>> {
 
     public void process(Collection<I> instructions) {
         for (I instruction : instructions) {

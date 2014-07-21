@@ -20,6 +20,7 @@
 package com.skelril.OSBL.bukkit.entity;
 
 import com.skelril.OSBL.bukkit.util.BukkitUtil;
+import com.skelril.OSBL.entity.EntityDetail;
 import com.skelril.OSBL.entity.LocalControllable;
 import com.skelril.OSBL.entity.LocalEntity;
 import org.bukkit.entity.Damageable;
@@ -27,11 +28,12 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 
-public abstract class BukkitControllable extends LocalControllable {
+public abstract class BukkitControllable<T extends EntityDetail> extends LocalControllable {
 
     protected Damageable controlled;
 
-    public BukkitControllable(Damageable controlled) {
+    public BukkitControllable(Damageable controlled, T detail) {
+        super(detail);
         this.controlled = controlled;
     }
 

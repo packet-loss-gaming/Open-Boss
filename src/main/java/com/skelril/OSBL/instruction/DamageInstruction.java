@@ -19,10 +19,11 @@
 
 package com.skelril.OSBL.instruction;
 
+import com.skelril.OSBL.entity.EntityDetail;
 import com.skelril.OSBL.entity.LocalControllable;
 import com.skelril.OSBL.entity.LocalEntity;
 import com.skelril.OSBL.util.AttackDamage;
 
-public abstract class DamageInstruction implements Instruction {
-    public abstract InstructionResult<DamageInstruction> process(LocalControllable boss, LocalEntity toHit, AttackDamage damage);
+public abstract class DamageInstruction<T extends EntityDetail> implements Instruction<T> {
+    public abstract InstructionResult<DamageInstruction<T>> process(LocalControllable boss, LocalEntity toHit, AttackDamage damage);
 }
