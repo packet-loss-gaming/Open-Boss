@@ -23,6 +23,7 @@ import com.skelril.OSBL.bukkit.BukkitBossDeclaration;
 import com.skelril.OSBL.bukkit.entity.BukkitEntity;
 import com.skelril.OSBL.bukkit.util.BukkitAttackDamage;
 import com.skelril.OSBL.bukkit.util.BukkitDamageSource;
+import com.skelril.OSBL.entity.EntityDetail;
 import com.skelril.OSBL.entity.LocalControllable;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
@@ -33,11 +34,11 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 
-public class DefaultBukkitListener implements BukkitListener {
+public class DefaultBukkitListener<T extends EntityDetail> implements BukkitListener {
 
-    private BukkitBossDeclaration declaration;
+    private BukkitBossDeclaration<T> declaration;
 
-    public DefaultBukkitListener(BukkitBossDeclaration declaration) {
+    public DefaultBukkitListener(BukkitBossDeclaration<T> declaration) {
         assert declaration != null;
         this.declaration = declaration;
     }
@@ -47,7 +48,7 @@ public class DefaultBukkitListener implements BukkitListener {
         Entity hurt = event.getEntity();
         BukkitAttackDamage damage = new BukkitAttackDamage(event);
 
-        LocalControllable boss = getBoss(new BukkitEntity<>(hurt));
+        LocalControllable<T> boss = getBoss(new BukkitEntity<>(hurt));
 
         // A boss of this type was harmed
         if (boss != null) {
@@ -75,8 +76,8 @@ public class DefaultBukkitListener implements BukkitListener {
         }
     }
 
-    private LocalControllable getBoss(BukkitEntity entity) {
-        LocalControllable controllable = declaration.getBound(entity);
+    private LocalControllable<T> getBoss(BukkitEntity entity) {
+        LocalControllable<T> controllable = declaration.getBound(entity);
         if (controllable == null && declaration.matchesBind(entity)) {
             entity.getBukkitEntity().remove();
             declaration.cleanup();
@@ -89,7 +90,7 @@ public class DefaultBukkitListener implements BukkitListener {
     public void onEnityDeath(EntityDeathEvent event) {
         Entity dead = event.getEntity();
 
-        LocalControllable boss = declaration.getBound(new BukkitEntity<>(dead));
+        LocalControllable<T> boss = declaration.getBound(new BukkitEntity<>(dead));
         if (boss != null) {
             declaration.unbind(boss);
         }

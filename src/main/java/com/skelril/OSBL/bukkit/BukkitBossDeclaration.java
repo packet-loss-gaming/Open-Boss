@@ -60,7 +60,7 @@ public abstract class BukkitBossDeclaration<T extends EntityDetail> extends Boss
         this.declarer = declarer;
 
         if (listener == null) {
-            listener = new DefaultBukkitListener(this);
+            listener = new DefaultBukkitListener<>(this);
         }
         registerListener(listener);
     }
