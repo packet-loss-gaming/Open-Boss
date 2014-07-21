@@ -27,12 +27,14 @@ import com.skelril.OSBL.entity.EntityDetail;
 import com.skelril.OSBL.entity.LocalControllable;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageByBlockEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.projectiles.ProjectileSource;
 
 public class DefaultBukkitListener<T extends EntityDetail> implements BukkitListener {
 
@@ -67,6 +69,12 @@ public class DefaultBukkitListener<T extends EntityDetail> implements BukkitList
             declaration.damaged(boss, attacker, damage);
         } else if (event instanceof EntityDamageByEntityEvent) {
             Entity damager = ((EntityDamageByEntityEvent) event).getDamager();
+            if (damager instanceof Projectile) {
+                ProjectileSource source = ((Projectile) damager).getShooter();
+                if (source instanceof Entity) {
+                    damager = (Entity) source;
+                }
+            }
             boss = getBoss(new BukkitEntity<>(damager));
 
             // A boss of this type attacked
