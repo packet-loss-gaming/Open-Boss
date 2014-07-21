@@ -61,6 +61,12 @@ public class DefaultBukkitListener<T extends EntityDetail> implements BukkitList
                 attacker = new BukkitDamageSource(damager, cause);
             } else if (event instanceof EntityDamageByEntityEvent) {
                 Entity damager = ((EntityDamageByEntityEvent) event).getDamager();
+                if (damager instanceof Projectile) {
+                    ProjectileSource source = ((Projectile) damager).getShooter();
+                    if (source instanceof Entity) {
+                        damager = (Entity) source;
+                    }
+                }
                 attacker = new BukkitDamageSource(damager, cause);
             } else {
                 attacker = new BukkitDamageSource(cause);
