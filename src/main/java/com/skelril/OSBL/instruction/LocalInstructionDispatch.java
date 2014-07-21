@@ -26,8 +26,8 @@ import com.skelril.OSBL.util.AttackDamage;
 import com.skelril.OSBL.util.DamageSource;
 
 public interface LocalInstructionDispatch<T extends EntityDetail> {
-    public InstructionProcessor<PassiveInstruction<T>> passive(LocalControllable<T> boss);
+    public InstructionProcessor<T, PassiveInstruction<T>> passive(LocalControllable<T> boss);
 
-    public InstructionProcessor<DamageInstruction<T>> damage(LocalControllable<T> boss, LocalEntity toHit, AttackDamage damage);
-    public InstructionProcessor<DamagedInstruction<T>> damaged(LocalControllable<T> boss, DamageSource hitBy, AttackDamage damage);
+    public InstructionProcessor<T, DamageInstruction<T>> damage(LocalControllable<T> boss, LocalEntity toHit, AttackDamage damage);
+    public InstructionProcessor<T, DamagedInstruction<T>> damaged(LocalControllable<T> boss, DamageSource hitBy, AttackDamage damage);
 }

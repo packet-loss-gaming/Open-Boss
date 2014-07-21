@@ -19,7 +19,9 @@
 
 package com.skelril.OSBL.instruction;
 
-public class InstructionResult<I extends Instruction<?>> {
+import com.skelril.OSBL.entity.EntityDetail;
+
+public class InstructionResult<T extends EntityDetail, I extends Instruction<T>> {
 
     private I next;
     private ResultState resultState;

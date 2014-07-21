@@ -25,5 +25,5 @@ import com.skelril.OSBL.util.AttackDamage;
 import com.skelril.OSBL.util.DamageSource;
 
 public abstract class DamagedInstruction<T extends EntityDetail> implements Instruction<T> {
-    public abstract InstructionResult<DamagedInstruction<T>> process(LocalControllable<T> boss, DamageSource hitBy, AttackDamage damage);
+    public abstract InstructionResult<T, DamagedInstruction<T>> process(LocalControllable<T> boss, DamageSource hitBy, AttackDamage damage);
 }

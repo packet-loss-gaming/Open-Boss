@@ -19,9 +19,11 @@
 
 package com.skelril.OSBL.instruction;
 
+import com.skelril.OSBL.entity.EntityDetail;
+
 import java.util.Collection;
 
-public abstract class InstructionProcessor<I extends Instruction<?>> {
+public abstract class InstructionProcessor<T extends EntityDetail, I extends Instruction<T>> {
 
     public void process(Collection<I> instructions) {
         for (I instruction : instructions) {
@@ -29,13 +31,13 @@ public abstract class InstructionProcessor<I extends Instruction<?>> {
         }
     }
 
-    public abstract InstructionResult<I> process(I instruction);
+    public abstract InstructionResult<T, I> process(I instruction);
 
     private  boolean processChained(I instruction) {
         boolean terminal = false;
         I next = instruction;
         while (next != null) {
-            InstructionResult<I> r = process(instruction);
+            InstructionResult<T, I> r = process(instruction);
             if (r != null) {
                 ResultState type = r.getResult();
                 if (type.isTerminal()) terminal = true;
