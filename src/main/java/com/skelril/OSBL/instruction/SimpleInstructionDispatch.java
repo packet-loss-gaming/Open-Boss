@@ -24,7 +24,7 @@ import com.skelril.OSBL.entity.LocalControllable;
 
 public class SimpleInstructionDispatch<T extends EntityDetail> extends SimpleLocalInstructionDispatch<T> implements InstructionDispatch<T> {
     @Override
-    public InstructionProcessor<BindInstruction<T>> bind(LocalControllable controllable) {
+    public InstructionProcessor<BindInstruction<T>> bind(LocalControllable<T> controllable) {
         return new InstructionProcessor<BindInstruction<T>>() {
             @Override
             public InstructionResult<BindInstruction<T>> process(BindInstruction<T> instruction) {
@@ -34,7 +34,7 @@ public class SimpleInstructionDispatch<T extends EntityDetail> extends SimpleLoc
     }
 
     @Override
-    public InstructionProcessor<UnbindInstruction<T>> unbind(LocalControllable controllable) {
+    public InstructionProcessor<UnbindInstruction<T>> unbind(LocalControllable<T> controllable) {
         return new InstructionProcessor<UnbindInstruction<T>>() {
             @Override
             public InstructionResult<UnbindInstruction<T>> process(UnbindInstruction<T> instruction) {

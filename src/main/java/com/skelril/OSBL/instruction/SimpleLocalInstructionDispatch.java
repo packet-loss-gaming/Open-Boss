@@ -27,7 +27,7 @@ import com.skelril.OSBL.util.DamageSource;
 
 public class SimpleLocalInstructionDispatch<T extends EntityDetail> implements LocalInstructionDispatch<T> {
     @Override
-    public InstructionProcessor<PassiveInstruction<T>> passive(LocalControllable boss) {
+    public InstructionProcessor<PassiveInstruction<T>> passive(LocalControllable<T> boss) {
         return new InstructionProcessor<PassiveInstruction<T>>() {
             @Override
             public InstructionResult<PassiveInstruction<T>> process(PassiveInstruction<T> instruction) {
@@ -37,7 +37,7 @@ public class SimpleLocalInstructionDispatch<T extends EntityDetail> implements L
     }
 
     @Override
-    public InstructionProcessor<DamageInstruction<T>> damage(LocalControllable boss, LocalEntity toHit, AttackDamage damage) {
+    public InstructionProcessor<DamageInstruction<T>> damage(LocalControllable<T> boss, LocalEntity toHit, AttackDamage damage) {
         return new InstructionProcessor<DamageInstruction<T>>() {
             @Override
             public InstructionResult<DamageInstruction<T>> process(DamageInstruction<T> instruction) {
@@ -47,7 +47,7 @@ public class SimpleLocalInstructionDispatch<T extends EntityDetail> implements L
     }
 
     @Override
-    public InstructionProcessor<DamagedInstruction<T>> damaged(LocalControllable boss, DamageSource hitBy, AttackDamage damage) {
+    public InstructionProcessor<DamagedInstruction<T>> damaged(LocalControllable<T> boss, DamageSource hitBy, AttackDamage damage) {
         return new InstructionProcessor<DamagedInstruction<T>>() {
             @Override
             public InstructionResult<DamagedInstruction<T>> process(DamagedInstruction<T> instruction) {

@@ -23,5 +23,5 @@ import com.skelril.OSBL.entity.EntityDetail;
 import com.skelril.OSBL.entity.LocalControllable;
 
 public abstract class UnbindInstruction<T extends EntityDetail> implements Instruction<T> {
-    public abstract InstructionResult<UnbindInstruction<T>> process(LocalControllable controllable);
+    public abstract InstructionResult<UnbindInstruction<T>> process(LocalControllable<T> controllable);
 }
