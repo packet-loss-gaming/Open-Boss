@@ -19,7 +19,6 @@
 
 package com.skelril.OSBL.bukkit.entity;
 
-import com.skelril.OSBL.bukkit.util.BukkitUtil;
 import com.skelril.OSBL.entity.EntityDetail;
 import com.skelril.OSBL.entity.LocalControllable;
 import com.skelril.OSBL.entity.LocalEntity;
@@ -65,10 +64,5 @@ public abstract class BukkitControllable<T extends EntityDetail> extends LocalCo
     @Override
     public boolean isValid() {
         return controlled.isValid();
-    }
-
-    @Override
-    public boolean equals(Object entity) {
-        return entity != null && controlled.equals(BukkitUtil.getBukkitEntity(entity));
     }
 }

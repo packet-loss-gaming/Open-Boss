@@ -19,7 +19,6 @@
 
 package com.skelril.OSBL.bukkit.entity;
 
-import com.skelril.OSBL.bukkit.util.BukkitUtil;
 import com.skelril.OSBL.entity.EntityDetail;
 import com.skelril.OSBL.entity.interfaces.Boss;
 import org.bukkit.entity.Damageable;
@@ -28,10 +27,5 @@ public class BukkitBoss<T extends EntityDetail> extends BukkitControllable<T> im
 
     public BukkitBoss(Damageable boss, T detail) {
         super(boss, detail);
-    }
-
-    @Override
-    public boolean equals(Object entity) {
-        return entity != null && controlled.equals(BukkitUtil.getBukkitEntity(entity));
     }
 }

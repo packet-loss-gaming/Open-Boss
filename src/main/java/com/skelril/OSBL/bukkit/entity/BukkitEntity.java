@@ -19,7 +19,6 @@
 
 package com.skelril.OSBL.bukkit.entity;
 
-import com.skelril.OSBL.bukkit.util.BukkitUtil;
 import com.skelril.OSBL.entity.LocalEntity;
 import org.bukkit.entity.Entity;
 
@@ -43,13 +42,5 @@ public class BukkitEntity<T extends Entity> extends LocalEntity {
     @Override
     public boolean isValid() {
         return entity.isValid();
-    }
-
-    @Override
-    public boolean equals(Object entity) {
-        if (entity == null) {
-            return this.entity == null;
-        }
-        return this.entity.equals(BukkitUtil.getBukkitEntity(entity));
     }
 }

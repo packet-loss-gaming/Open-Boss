@@ -19,7 +19,6 @@
 
 package com.skelril.OSBL.bukkit.entity;
 
-import com.skelril.OSBL.bukkit.util.BukkitUtil;
 import com.skelril.OSBL.entity.EntityDetail;
 import com.skelril.OSBL.entity.LocalControllable;
 import com.skelril.OSBL.entity.interfaces.Minion;
@@ -35,12 +34,7 @@ public class BukkitMinion<T extends EntityDetail> extends BukkitControllable<T> 
     }
 
     @Override
-    public LocalControllable getOwningBoss() {
+    public LocalControllable<T> getOwningBoss() {
         return boss;
-    }
-
-    @Override
-    public boolean equals(Object entity) {
-        return entity != null && controlled.equals(BukkitUtil.getBukkitEntity(entity));
     }
 }

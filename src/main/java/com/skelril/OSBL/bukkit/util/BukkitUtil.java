@@ -21,24 +21,26 @@ package com.skelril.OSBL.bukkit.util;
 
 import com.skelril.OSBL.bukkit.entity.BukkitControllable;
 import com.skelril.OSBL.bukkit.entity.BukkitEntity;
+import com.skelril.OSBL.entity.EntityDetail;
 import com.skelril.OSBL.entity.LocalControllable;
 import com.skelril.OSBL.entity.LocalEntity;
-import org.bukkit.entity.Entity;
 
 import java.util.UUID;
 
 public class BukkitUtil {
 
-    public static Entity getBukkitEntity(Object entity) {
-        Entity bukkitEntity = null;
-        if (entity instanceof BukkitEntity) {
-            bukkitEntity = ((BukkitEntity) entity).getBukkitEntity();
-        } else if (entity instanceof BukkitControllable) {
-            bukkitEntity = ((BukkitEntity) ((BukkitControllable) entity).getLocalEntity()).getBukkitEntity();
-        } else if (entity instanceof Entity) {
-            bukkitEntity = (Entity) entity;
+    public static <T extends EntityDetail> BukkitControllable<T> getBukkitEntity(LocalControllable<T> entity) {
+        if (entity instanceof BukkitControllable) {
+            return (BukkitControllable<T>) entity;
         }
-        return bukkitEntity;
+        return null;
+    }
+
+    public static BukkitEntity getBukkitEntity(LocalEntity entity) {
+        if (entity instanceof BukkitEntity) {
+            return (BukkitEntity) entity;
+        }
+        return null;
     }
 
     public static UUID grabUUID(LocalEntity entity) {
