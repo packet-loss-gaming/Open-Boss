@@ -20,11 +20,11 @@
 package com.skelril.OSBL.bukkit.listener;
 
 import com.skelril.OSBL.bukkit.BukkitBossDeclaration;
+import com.skelril.OSBL.bukkit.entity.BukkitControllable;
 import com.skelril.OSBL.bukkit.entity.BukkitEntity;
 import com.skelril.OSBL.bukkit.util.BukkitAttackDamage;
 import com.skelril.OSBL.bukkit.util.BukkitDamageSource;
 import com.skelril.OSBL.entity.EntityDetail;
-import com.skelril.OSBL.entity.LocalControllable;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Projectile;
@@ -36,13 +36,15 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.projectiles.ProjectileSource;
 
-public class DefaultBukkitListener<T extends EntityDetail> implements BukkitListener {
+public class DefaultBukkitListener<T extends EntityDetail, K extends Entity> implements BukkitListener {
 
-    private BukkitBossDeclaration<T> declaration;
+    private BukkitBossDeclaration<T, K> declaration;
+    private Class<K> type;
 
-    public DefaultBukkitListener(BukkitBossDeclaration<T> declaration) {
+    public DefaultBukkitListener(BukkitBossDeclaration<T, K> declaration, Class<K> type) {
         assert declaration != null;
         this.declaration = declaration;
+        this.type = type;
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -50,7 +52,7 @@ public class DefaultBukkitListener<T extends EntityDetail> implements BukkitList
         Entity hurt = event.getEntity();
         BukkitAttackDamage damage = new BukkitAttackDamage(event);
 
-        LocalControllable<T> boss = getBoss(new BukkitEntity<>(hurt));
+        BukkitControllable<T, K> boss = getBoss(hurt);
 
         // A boss of this type was harmed
         if (boss != null) {
@@ -81,7 +83,7 @@ public class DefaultBukkitListener<T extends EntityDetail> implements BukkitList
                     damager = (Entity) source;
                 }
             }
-            boss = getBoss(new BukkitEntity<>(damager));
+            boss = getBoss(damager);
 
             // A boss of this type attacked
             if (boss != null && event.getDamage() > 0) {
@@ -90,21 +92,26 @@ public class DefaultBukkitListener<T extends EntityDetail> implements BukkitList
         }
     }
 
-    private LocalControllable<T> getBoss(BukkitEntity entity) {
-        LocalControllable<T> controllable = declaration.getBound(entity);
-        if (controllable == null && declaration.matchesBind(entity)) {
-            entity.getBukkitEntity().remove();
-            declaration.cleanup();
-            return null;
+    private BukkitControllable<T, K> getBoss(Entity entity) {
+        if (type.isInstance(entity)) {
+            @SuppressWarnings("unchecked")
+            BukkitEntity<K> boss = new BukkitEntity<>((K) entity);
+            BukkitControllable<T, K> controllable = declaration.getBound(boss);
+            if (controllable == null && declaration.matchesBind(boss)) {
+                entity.remove();
+                declaration.cleanup();
+                return null;
+            }
+            return controllable;
         }
-        return controllable;
+        return null;
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onEnityDeath(EntityDeathEvent event) {
         Entity dead = event.getEntity();
 
-        LocalControllable<T> boss = declaration.getBound(new BukkitEntity<>(dead));
+        BukkitControllable<T, K> boss = declaration.getBound(new BukkitEntity<>(dead));
         if (boss != null) {
             declaration.unbind(boss);
         }

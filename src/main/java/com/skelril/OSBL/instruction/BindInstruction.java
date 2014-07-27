@@ -19,9 +19,5 @@
 
 package com.skelril.OSBL.instruction;
 
-import com.skelril.OSBL.entity.EntityDetail;
-import com.skelril.OSBL.entity.LocalControllable;
-
-public abstract class BindInstruction<T extends EntityDetail> implements Instruction<T> {
-    public abstract InstructionResult<T, BindInstruction<T>> process(LocalControllable<T> controllable);
+public abstract class BindInstruction<Boss> implements Instruction<InstructionResult<BindInstruction<Boss>>, Boss> {
 }

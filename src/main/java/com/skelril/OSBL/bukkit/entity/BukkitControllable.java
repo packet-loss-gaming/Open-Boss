@@ -21,26 +21,23 @@ package com.skelril.OSBL.bukkit.entity;
 
 import com.skelril.OSBL.entity.EntityDetail;
 import com.skelril.OSBL.entity.LocalControllable;
-import com.skelril.OSBL.entity.LocalEntity;
-import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 
-public abstract class BukkitControllable<T extends EntityDetail> extends LocalControllable<T> {
+public class BukkitControllable<T extends EntityDetail, K extends Entity> extends LocalControllable<T, BukkitEntity, BukkitEntity<K>> {
 
-    protected Damageable controlled;
+    protected K controlled;
 
-    public BukkitControllable(Damageable controlled, T detail) {
+    public BukkitControllable(K controlled, T detail) {
         super(detail);
         this.controlled = controlled;
     }
 
     @Override
-    public void setTarget(LocalEntity target) {
+    public void setTarget(BukkitEntity target) {
         boolean isNull = target == null;
-        assert isNull || target instanceof BukkitEntity;
-        Entity newTarget = isNull ? null : ((BukkitEntity) target).getBukkitEntity();
+        Entity newTarget = isNull ? null : target.getBukkitEntity();
         if (controlled instanceof Monster && (isNull || newTarget instanceof LivingEntity)) {
             ((Monster) controlled).setTarget(isNull ? null : (LivingEntity) newTarget);
         } else {
@@ -49,7 +46,7 @@ public abstract class BukkitControllable<T extends EntityDetail> extends LocalCo
     }
 
     @Override
-    public LocalEntity getTarget() {
+    public BukkitEntity getTarget() {
         if (controlled instanceof Monster) {
             return new BukkitEntity<>(((Monster) controlled).getTarget());
         }
@@ -57,7 +54,7 @@ public abstract class BukkitControllable<T extends EntityDetail> extends LocalCo
     }
 
     @Override
-    public LocalEntity getLocalEntity() {
+    public BukkitEntity<K> getLocalEntity() {
         return new BukkitEntity<>(controlled);
     }
 

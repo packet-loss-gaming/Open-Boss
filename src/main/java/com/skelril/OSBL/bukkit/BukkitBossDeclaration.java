@@ -25,18 +25,17 @@ import com.skelril.OSBL.bukkit.entity.BukkitEntity;
 import com.skelril.OSBL.bukkit.listener.BukkitListener;
 import com.skelril.OSBL.bukkit.listener.DefaultBukkitListener;
 import com.skelril.OSBL.bukkit.util.BukkitDamageSource;
-import com.skelril.OSBL.bukkit.util.BukkitUtil;
 import com.skelril.OSBL.entity.EntityDetail;
 import com.skelril.OSBL.entity.LocalControllable;
-import com.skelril.OSBL.entity.LocalEntity;
 import com.skelril.OSBL.instruction.InstructionDispatch;
 import com.skelril.OSBL.util.AttackDamage;
 import com.skelril.OSBL.util.DamageSource;
+import org.bukkit.entity.Entity;
 import org.bukkit.plugin.Plugin;
 
 import java.util.*;
 
-public abstract class BukkitBossDeclaration<T extends EntityDetail> extends BossDeclaration<T> {
+public abstract class BukkitBossDeclaration<T extends EntityDetail, K extends Entity> extends BossDeclaration<T, BukkitEntity, BukkitEntity<K>> {
 
     /*
      * Declaring Bukkit plugin
@@ -46,13 +45,38 @@ public abstract class BukkitBossDeclaration<T extends EntityDetail> extends Boss
     /*
      * Controlled list
      */
-    public final Map<UUID, LocalControllable<T>> controlled = new HashMap<>();
+    public final Map<UUID, BukkitControllable<T, K>> controlled = new HashMap<>();
 
-    public BukkitBossDeclaration(Plugin declarer, InstructionDispatch<T> dispatch) {
-        this(declarer, dispatch, null);
+    public BukkitBossDeclaration(Plugin declarer,
+                                 InstructionDispatch<
+                                         T,
+                                         BukkitEntity,
+                                         BukkitEntity<K>,
+                                         LocalControllable<
+                                                 T,
+                                                 BukkitEntity,
+                                                 BukkitEntity<K>
+                                         >
+                                 >
+                                 dispatch,
+                                 Class<K> type) {
+        this(declarer, dispatch, type, null);
     }
 
-    public BukkitBossDeclaration(Plugin declarer, InstructionDispatch<T> dispatch, BukkitListener listener) {
+    public BukkitBossDeclaration(Plugin declarer,
+                                 InstructionDispatch<
+                                         T,
+                                         BukkitEntity,
+                                         BukkitEntity<K>,
+                                         LocalControllable<
+                                                 T,
+                                                 BukkitEntity,
+                                                 BukkitEntity<K>
+                                         >
+                                 >
+                                 dispatch,
+                                 Class<K> type,
+                                 BukkitListener listener) {
         super(dispatch);
 
         assert declarer != null;
@@ -60,7 +84,7 @@ public abstract class BukkitBossDeclaration<T extends EntityDetail> extends Boss
         this.declarer = declarer;
 
         if (listener == null) {
-            listener = new DefaultBukkitListener<>(this);
+            listener = new DefaultBukkitListener<>(this, type);
         }
         registerListener(listener);
     }
@@ -69,12 +93,12 @@ public abstract class BukkitBossDeclaration<T extends EntityDetail> extends Boss
         declarer.getServer().getPluginManager().registerEvents(listener, declarer);
     }
 
-    public Map<UUID, LocalControllable<T>> getControlled() {
+    public Map<UUID, LocalControllable<T, BukkitEntity, BukkitEntity<K>>> getControlled() {
         return Collections.unmodifiableMap(controlled);
     }
 
     public void cleanup() {
-        Iterator<Map.Entry<UUID, LocalControllable<T>>> it = controlled.entrySet().iterator();
+        Iterator<Map.Entry<UUID, BukkitControllable<T, K>>> it = controlled.entrySet().iterator();
         while (it.hasNext()) {
             if (!it.next().getValue().isValid()) {
                 it.remove();
@@ -83,42 +107,41 @@ public abstract class BukkitBossDeclaration<T extends EntityDetail> extends Boss
     }
 
     @Override
-    public abstract boolean matchesBind(LocalEntity entity);
+    public abstract boolean matchesBind(BukkitEntity<K> entity);
 
     @Override
-    public LocalControllable<T> getBound(LocalEntity entity) {
-        assert entity != null && entity instanceof BukkitEntity;
-        return controlled.get(BukkitUtil.grabUUID(entity));
+    public BukkitControllable<T, K> getBound(BukkitEntity entity) {
+        assert entity != null;
+        return controlled.get(entity.getBukkitEntity().getUniqueId());
     }
 
     @Override
-    public void silentBind(LocalControllable<T> controllable) {
+    public void silentBind(LocalControllable<T, BukkitEntity, BukkitEntity<K>> controllable) {
         assert controllable != null && controllable instanceof BukkitControllable;
-        controlled.put(BukkitUtil.grabUUID(controllable), controllable);
+        controlled.put(controllable.getLocalEntity().getBukkitEntity().getUniqueId(), (BukkitControllable<T, K>) controllable);
     }
 
     @Override
-    public void silentUnbind(LocalControllable<T> controllable) {
-        assert controllable != null && controllable instanceof BukkitControllable;
-        controlled.remove(BukkitUtil.grabUUID(controllable));
+    public void silentUnbind(LocalControllable<T, BukkitEntity, BukkitEntity<K>> controllable) {
+        assert controllable != null;
+        controlled.remove(controllable.getLocalEntity().getBukkitEntity().getUniqueId());
     }
 
     @Override
-    public void process(LocalControllable<T> controllable) {
-        assert controllable != null && controllable instanceof BukkitControllable;
+    public void process(LocalControllable<T, BukkitEntity, BukkitEntity<K>> controllable) {
+        assert controllable != null;
         super.process(controllable);
     }
 
     @Override
-    public void damage(LocalControllable<T> attacker, LocalEntity toHit, AttackDamage damage) {
-        assert attacker != null && attacker instanceof BukkitControllable;
-        assert toHit != null && toHit instanceof BukkitEntity;
+    public void damage(LocalControllable<T, BukkitEntity, BukkitEntity<K>> attacker, BukkitEntity toHit, AttackDamage damage) {
+        assert attacker != null && toHit != null;
         super.damage(attacker, toHit, damage);
     }
 
     @Override
-    public void damaged(LocalControllable<T> defender, DamageSource damager, AttackDamage damage) {
-        assert defender != null && defender instanceof BukkitControllable;
+    public void damaged(LocalControllable<T, BukkitEntity, BukkitEntity<K>> defender, DamageSource damager, AttackDamage damage) {
+        assert defender != null;
         assert damager != null && damager instanceof BukkitDamageSource;
         super.damaged(defender, damager, damage);
     }

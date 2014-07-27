@@ -19,11 +19,11 @@
 
 package com.skelril.OSBL.entity;
 
-public abstract class LocalEntity {
+public interface LocalEntity<T extends LocalEntity> {
 
     /*
      * General Inquiry
      */
-    public abstract LocalEntity getLocalEntity();
-    public abstract boolean isValid();
+    public T getLocalEntity();
+    public boolean isValid();
 }

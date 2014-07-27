@@ -19,7 +19,6 @@
 
 package com.skelril.OSBL.instruction;
 
-import com.skelril.OSBL.entity.EntityDetail;
-
-public interface Instruction<T extends EntityDetail> {
+public interface Instruction<IR extends InstructionResult, Boss> {
+    public IR processFor(Boss boss);
 }

@@ -22,7 +22,7 @@ package com.skelril.OSBL.bukkit.entity;
 import com.skelril.OSBL.entity.LocalEntity;
 import org.bukkit.entity.Entity;
 
-public class BukkitEntity<T extends Entity> extends LocalEntity {
+public class BukkitEntity<T extends Entity> implements LocalEntity<BukkitEntity<T>> {
 
     private T entity;
 
@@ -35,7 +35,7 @@ public class BukkitEntity<T extends Entity> extends LocalEntity {
     }
 
     @Override
-    public LocalEntity getLocalEntity() {
+    public BukkitEntity<T> getLocalEntity() {
         return new BukkitEntity<>(entity);
     }
 

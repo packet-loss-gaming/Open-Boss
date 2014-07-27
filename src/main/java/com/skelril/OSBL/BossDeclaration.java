@@ -29,56 +29,56 @@ import com.skelril.OSBL.util.DamageSource;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class BossDeclaration<T extends EntityDetail> {
+public abstract class BossDeclaration<T extends EntityDetail, A extends LocalEntity, K extends A> {
 
-    private final InstructionDispatch<T> dispatch;
+    private final InstructionDispatch<T, A, K, LocalControllable<T, A, K>> dispatch;
 
     /*
      * Binding System Variables
      */
-    public final List<BindInstruction<T>> bindInstructions = new ArrayList<>();
-    public final List<UnbindInstruction<T>> unbindInstructions = new ArrayList<>();
+    public final List<? extends BindInstruction<LocalControllable<T, A, K>>> bindInstructions = new ArrayList<>();
+    public final List<? extends UnbindInstruction<LocalControllable<T, A, K>>> unbindInstructions = new ArrayList<>();
 
     /*
      * Passive Effect System Variables
      */
-    public final List<PassiveInstruction<T>> passiveInstructions = new ArrayList<>();
+    public final List<? extends PassiveInstruction<LocalControllable<T, A, K>>> passiveInstructions = new ArrayList<>();
 
     /*
      * Damage System Variables
      */
-    public final List<DamageInstruction<T>> damageInstructions = new ArrayList<>();
-    public final List<DamagedInstruction<T>> damagedInstructions = new ArrayList<>();
+    public final List<? extends DamageInstruction<LocalControllable<T, A, K>, A>> damageInstructions = new ArrayList<>();
+    public final List<? extends DamagedInstruction<LocalControllable<T, A, K>>> damagedInstructions = new ArrayList<>();
 
-    public BossDeclaration(InstructionDispatch<T> dispatch) {
+    public BossDeclaration(InstructionDispatch<T, A, K, LocalControllable<T, A, K>> dispatch) {
         this.dispatch = dispatch;
     }
 
     /*
      * Binding System
      */
-    public void bind(LocalControllable<T> controllable) {
+    public void bind(LocalControllable<T, A, K> controllable) {
         silentBind(controllable);
         dispatch.bind(controllable).process(bindInstructions);
     }
 
-    public abstract boolean matchesBind(LocalEntity entity);
+    public abstract boolean matchesBind(K entity);
 
-    public void unbind(LocalControllable<T> controllable) {
+    public void unbind(LocalControllable<T, A, K> controllable) {
         silentUnbind(controllable);
         dispatch.unbind(controllable).process(unbindInstructions);
         dispatch.unbind(controllable).process(controllable.unbindInstructions);
     }
 
-    public abstract LocalControllable getBound(LocalEntity entity);
+    public abstract LocalControllable<T, A, K> getBound(K entity);
 
-    public abstract void silentBind(LocalControllable<T> controllable);
-    public abstract void silentUnbind(LocalControllable<T> controllable);
+    public abstract void silentBind(LocalControllable<T, A, K> controllable);
+    public abstract void silentUnbind(LocalControllable<T, A, K> controllable);
 
     /*
      * Passive Effect System
      */
-    public void process(LocalControllable<T> controllable) {
+    public void process(LocalControllable<T, A, K> controllable) {
         dispatch.passive(controllable).process(passiveInstructions);
         dispatch.passive(controllable).process(controllable.passiveInstructions);
     }
@@ -86,12 +86,12 @@ public abstract class BossDeclaration<T extends EntityDetail> {
     /*
      * Damage System Methods
      */
-    public void damage(LocalControllable<T> attacker, LocalEntity toHit, AttackDamage damage) {
+    public void damage(LocalControllable<T, A, K> attacker, A toHit, AttackDamage damage) {
         dispatch.damage(attacker, toHit, damage).process(damageInstructions);
         dispatch.damage(attacker, toHit, damage).process(attacker.damageInstructions);
     }
 
-    public void damaged(LocalControllable<T> defender, DamageSource damager, AttackDamage damage) {
+    public void damaged(LocalControllable<T, A, K> defender, DamageSource damager, AttackDamage damage) {
         dispatch.damaged(defender, damager, damage).process(damagedInstructions);
         dispatch.damaged(defender, damager, damage).process(defender.damagedInstructions);
     }

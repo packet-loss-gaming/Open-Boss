@@ -19,9 +19,8 @@
 
 package com.skelril.OSBL.entity.interfaces;
 
-import com.skelril.OSBL.entity.EntityDetail;
 import com.skelril.OSBL.entity.LocalControllable;
 
-public interface Minion<T extends EntityDetail> {
-    public LocalControllable<T> getOwningBoss();
+public interface Minion<R extends LocalControllable> {
+    public R getOwningBoss();
 }

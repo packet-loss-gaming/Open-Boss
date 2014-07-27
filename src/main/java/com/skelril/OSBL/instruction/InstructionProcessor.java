@@ -19,25 +19,23 @@
 
 package com.skelril.OSBL.instruction;
 
-import com.skelril.OSBL.entity.EntityDetail;
-
 import java.util.Collection;
 
-public abstract class InstructionProcessor<T extends EntityDetail, I extends Instruction<T>> {
+public abstract class InstructionProcessor<I extends Instruction, IR extends InstructionResult<I>> {
 
-    public void process(Collection<I> instructions) {
+    public void process(Collection<? extends I> instructions) {
         for (I instruction : instructions) {
             if (processChained(instruction)) return;
         }
     }
 
-    public abstract InstructionResult<T, I> process(I instruction);
+    public abstract IR process(I instruction);
 
-    private  boolean processChained(I instruction) {
+    private boolean processChained(I instruction) {
         boolean terminal = false;
         I next = instruction;
         while (next != null) {
-            InstructionResult<T, I> r = process(instruction);
+            IR r = process(instruction);
             if (r != null) {
                 ResultState type = r.getResult();
                 if (type.isTerminal()) terminal = true;

@@ -24,25 +24,25 @@ import com.skelril.OSBL.instruction.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class LocalControllable<T extends EntityDetail> extends LocalEntity {
+public abstract class LocalControllable<T extends EntityDetail, A extends LocalEntity, K extends A> implements LocalEntity<K> {
 
     private final T detail;
 
     /*
      * Binding System Variables
      */
-    public final List<UnbindInstruction<T>> unbindInstructions = new ArrayList<>();
+    public final List<? extends UnbindInstruction<LocalControllable<T, A, K>>> unbindInstructions = new ArrayList<>();
 
     /*
      * Passive Effect System Variables
     */
-    public final List<PassiveInstruction<T>> passiveInstructions = new ArrayList<>();
+    public final List<? extends PassiveInstruction<LocalControllable<T, A, K>>> passiveInstructions = new ArrayList<>();
 
     /*
      * Damage System Variables
      */
-    public final List<DamageInstruction<T>> damageInstructions = new ArrayList<>();
-    public final List<DamagedInstruction<T>> damagedInstructions = new ArrayList<>();
+    public final List<? extends DamageInstruction<LocalControllable<T, A, K>, A>> damageInstructions = new ArrayList<>();
+    public final List<? extends DamagedInstruction<LocalControllable<T, A, K>>> damagedInstructions = new ArrayList<>();
 
     public LocalControllable(T detail) {
         this.detail = detail;
@@ -51,8 +51,8 @@ public abstract class LocalControllable<T extends EntityDetail> extends LocalEnt
     /*
      * Targeting System
      */
-    public abstract void setTarget(LocalEntity target);
-    public abstract LocalEntity getTarget();
+    public abstract void setTarget(A target);
+    public abstract A getTarget();
 
     /*
      * Detail System

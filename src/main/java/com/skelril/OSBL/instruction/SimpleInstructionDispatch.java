@@ -21,24 +21,25 @@ package com.skelril.OSBL.instruction;
 
 import com.skelril.OSBL.entity.EntityDetail;
 import com.skelril.OSBL.entity.LocalControllable;
+import com.skelril.OSBL.entity.LocalEntity;
 
-public class SimpleInstructionDispatch<T extends EntityDetail> extends SimpleLocalInstructionDispatch<T> implements InstructionDispatch<T> {
+public class SimpleInstructionDispatch<T extends EntityDetail, A extends LocalEntity, K extends A, R extends LocalControllable<T, A, K>> extends SimpleLocalInstructionDispatch<T, A, K, R> implements InstructionDispatch<T, A, K, R> {
     @Override
-    public InstructionProcessor<T, BindInstruction<T>> bind(LocalControllable<T> controllable) {
-        return new InstructionProcessor<T, BindInstruction<T>>() {
+    public InstructionProcessor<BindInstruction<R>, InstructionResult<BindInstruction<R>>> bind(R controllable) {
+        return new InstructionProcessor<BindInstruction<R>, InstructionResult<BindInstruction<R>>>() {
             @Override
-            public InstructionResult<T, BindInstruction<T>> process(BindInstruction<T> instruction) {
-                return instruction.process(controllable);
+            public InstructionResult<BindInstruction<R>> process(BindInstruction<R> instruction) {
+                return instruction.processFor(controllable);
             }
         };
     }
 
     @Override
-    public InstructionProcessor<T, UnbindInstruction<T>> unbind(LocalControllable<T> controllable) {
-        return new InstructionProcessor<T, UnbindInstruction<T>>() {
+    public InstructionProcessor<UnbindInstruction<R>, InstructionResult<UnbindInstruction<R>>> unbind(R controllable) {
+        return new InstructionProcessor<UnbindInstruction<R>, InstructionResult<UnbindInstruction<R>>>() {
             @Override
-            public InstructionResult<T, UnbindInstruction<T>> process(UnbindInstruction<T> instruction) {
-                return instruction.process(controllable);
+            public InstructionResult<UnbindInstruction<R>> process(UnbindInstruction<R> instruction) {
+                return instruction.processFor(controllable);
             }
         };
     }
