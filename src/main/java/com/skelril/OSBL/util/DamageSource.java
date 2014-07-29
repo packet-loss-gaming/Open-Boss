@@ -22,10 +22,10 @@ package com.skelril.OSBL.util;
 import com.skelril.OSBL.block.LocalBlock;
 import com.skelril.OSBL.entity.LocalEntity;
 
-public abstract class DamageSource {
+public abstract class DamageSource<E extends LocalEntity, B extends LocalBlock> {
     public abstract boolean involvesEntity();
-    public abstract LocalEntity getDamagingEntity();
+    public abstract E getDamagingEntity();
 
     public abstract boolean involvesBlock();
-    public abstract LocalBlock getDamagingBlock();
+    public abstract B getDamagingBlock();
 }

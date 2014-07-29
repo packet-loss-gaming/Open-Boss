@@ -19,6 +19,7 @@
 
 package com.skelril.OSBL;
 
+import com.skelril.OSBL.block.LocalBlock;
 import com.skelril.OSBL.entity.EntityDetail;
 import com.skelril.OSBL.entity.LocalControllable;
 import com.skelril.OSBL.entity.LocalEntity;
@@ -29,7 +30,7 @@ import com.skelril.OSBL.util.DamageSource;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class BossDeclaration<T extends EntityDetail, A extends LocalEntity, K extends A> {
+public abstract class BossDeclaration<T extends EntityDetail, A extends LocalEntity, K extends A, B extends LocalBlock, D> {
 
     private final InstructionDispatch<T, A, K, LocalControllable<T, A, K>> dispatch;
 
@@ -86,12 +87,12 @@ public abstract class BossDeclaration<T extends EntityDetail, A extends LocalEnt
     /*
      * Damage System Methods
      */
-    public void damage(LocalControllable<T, A, K> attacker, A toHit, AttackDamage damage) {
+    public void damage(LocalControllable<T, A, K> attacker, A toHit, AttackDamage<D> damage) {
         dispatch.damage(attacker, toHit, damage).process(damageInstructions);
         dispatch.damage(attacker, toHit, damage).process(attacker.damageInstructions);
     }
 
-    public void damaged(LocalControllable<T, A, K> defender, DamageSource damager, AttackDamage damage) {
+    public void damaged(LocalControllable<T, A, K> defender, DamageSource<A, B> damager, AttackDamage<D> damage) {
         dispatch.damaged(defender, damager, damage).process(damagedInstructions);
         dispatch.damaged(defender, damager, damage).process(defender.damagedInstructions);
     }

@@ -19,16 +19,14 @@
 
 package com.skelril.OSBL.bukkit.util;
 
-import com.skelril.OSBL.block.LocalBlock;
 import com.skelril.OSBL.bukkit.block.BukkitBlock;
 import com.skelril.OSBL.bukkit.entity.BukkitEntity;
-import com.skelril.OSBL.entity.LocalEntity;
 import com.skelril.OSBL.util.DamageSource;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.entity.EntityDamageEvent;
 
-public class BukkitDamageSource extends DamageSource {
+public class BukkitDamageSource extends DamageSource<BukkitEntity, BukkitBlock> {
 
     private EntityDamageEvent.DamageCause cause;
     private Entity damagingEntity = null;
@@ -59,7 +57,7 @@ public class BukkitDamageSource extends DamageSource {
     }
 
     @Override
-    public LocalEntity getDamagingEntity() {
+    public BukkitEntity getDamagingEntity() {
         return new BukkitEntity<>(damagingEntity);
     }
 
@@ -69,7 +67,7 @@ public class BukkitDamageSource extends DamageSource {
     }
 
     @Override
-    public LocalBlock getDamagingBlock() {
+    public BukkitBlock getDamagingBlock() {
         return new BukkitBlock(damagingBlock);
     }
 }

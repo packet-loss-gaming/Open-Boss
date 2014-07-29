@@ -19,7 +19,9 @@
 
 package com.skelril.OSBL.util;
 
-public abstract class AttackDamage {
+public interface AttackDamage<T> {
+
+    public T getEvent();
 
     public abstract double getDamage();
     public abstract boolean setDamage(double damage);

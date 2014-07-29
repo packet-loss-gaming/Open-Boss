@@ -50,7 +50,7 @@ public class DefaultBukkitListener<T extends EntityDetail, K extends Entity> imp
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onEntityDamage(EntityDamageEvent event) {
         Entity hurt = event.getEntity();
-        BukkitAttackDamage damage = new BukkitAttackDamage(event);
+        BukkitAttackDamage<EntityDamageEvent> damage = new BukkitAttackDamage<>(event);
 
         BukkitControllable<T, K> boss = getBoss(hurt);
 

@@ -20,22 +20,21 @@
 package com.skelril.OSBL.bukkit;
 
 import com.skelril.OSBL.BossDeclaration;
+import com.skelril.OSBL.bukkit.block.BukkitBlock;
 import com.skelril.OSBL.bukkit.entity.BukkitControllable;
 import com.skelril.OSBL.bukkit.entity.BukkitEntity;
 import com.skelril.OSBL.bukkit.listener.BukkitListener;
 import com.skelril.OSBL.bukkit.listener.DefaultBukkitListener;
-import com.skelril.OSBL.bukkit.util.BukkitDamageSource;
 import com.skelril.OSBL.entity.EntityDetail;
 import com.skelril.OSBL.entity.LocalControllable;
 import com.skelril.OSBL.instruction.InstructionDispatch;
-import com.skelril.OSBL.util.AttackDamage;
-import com.skelril.OSBL.util.DamageSource;
 import org.bukkit.entity.Entity;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.plugin.Plugin;
 
 import java.util.*;
 
-public abstract class BukkitBossDeclaration<T extends EntityDetail, K extends Entity> extends BossDeclaration<T, BukkitEntity, BukkitEntity<K>> {
+public abstract class BukkitBossDeclaration<T extends EntityDetail, K extends Entity> extends BossDeclaration<T, BukkitEntity, BukkitEntity<K>, BukkitBlock, EntityDamageEvent> {
 
     /*
      * Declaring Bukkit plugin
@@ -125,24 +124,5 @@ public abstract class BukkitBossDeclaration<T extends EntityDetail, K extends En
     public void silentUnbind(LocalControllable<T, BukkitEntity, BukkitEntity<K>> controllable) {
         assert controllable != null;
         controlled.remove(controllable.getLocalEntity().getBukkitEntity().getUniqueId());
-    }
-
-    @Override
-    public void process(LocalControllable<T, BukkitEntity, BukkitEntity<K>> controllable) {
-        assert controllable != null;
-        super.process(controllable);
-    }
-
-    @Override
-    public void damage(LocalControllable<T, BukkitEntity, BukkitEntity<K>> attacker, BukkitEntity toHit, AttackDamage damage) {
-        assert attacker != null && toHit != null;
-        super.damage(attacker, toHit, damage);
-    }
-
-    @Override
-    public void damaged(LocalControllable<T, BukkitEntity, BukkitEntity<K>> defender, DamageSource damager, AttackDamage damage) {
-        assert defender != null;
-        assert damager != null && damager instanceof BukkitDamageSource;
-        super.damaged(defender, damager, damage);
     }
 }
