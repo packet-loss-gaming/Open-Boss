@@ -44,6 +44,14 @@ public class InstructionProcessor<I extends Instruction<I, C>, C extends Conditi
             do {
                 next = instruction.process(condition);
             } while (next != null && next.getNext() != null);
+
+            // If there is an instruction that reaches this point
+            // the next instruction is null. This type of result
+            // is considered a terminal result, and will exit
+            // processing immediately.
+            if (next != null) {
+                return;
+            }
         }
     }
 }
