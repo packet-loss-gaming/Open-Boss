@@ -23,6 +23,7 @@ import com.skelril.OpenBoss.condition.BindCondition;
 import com.skelril.OpenBoss.condition.DamageCondition;
 import com.skelril.OpenBoss.condition.DamagedCondition;
 import com.skelril.OpenBoss.condition.UnbindCondition;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 
@@ -36,6 +37,14 @@ public class BossManager extends ProcessedComponent {
 
     public Boss lookup(UUID entity) {
         return bosses.get(entity);
+    }
+
+    public Boss updateLookup(LivingEntity entity) {
+        Boss boss = lookup(entity.getUniqueId());
+        if (!entity.equals(boss.getEntity())) {
+            boss.setEntity(entity);
+        }
+        return boss;
     }
 
     public void bind(Boss boss) {

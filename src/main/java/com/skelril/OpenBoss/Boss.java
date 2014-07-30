@@ -21,18 +21,24 @@ package com.skelril.OpenBoss;
 
 import org.bukkit.entity.LivingEntity;
 
+import java.lang.ref.WeakReference;
+
 public class Boss extends ProcessedComponent {
 
-    private final LivingEntity entity;
+    private WeakReference<LivingEntity> entity;
     private final EntityDetail detail;
 
     public Boss(LivingEntity entity, EntityDetail detail) {
-        this.entity = entity;
+        this.entity = new WeakReference<>(entity);
         this.detail = detail;
     }
 
     public LivingEntity getEntity() {
-        return entity;
+        return entity.get();
+    }
+
+    protected void setEntity(LivingEntity entity) {
+        this.entity = new WeakReference<>(entity);
     }
 
     public EntityDetail getDetail() {

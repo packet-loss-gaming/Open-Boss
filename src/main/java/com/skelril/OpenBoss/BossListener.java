@@ -40,7 +40,7 @@ public class BossListener implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onEntityDamage(EntityDamageEvent event) {
-        Boss boss = manager.lookup(event.getEntity().getUniqueId());
+        Boss boss = lookup(event.getEntity());
         if (boss != null) {
             manager.callDamaged(boss, event);
             return;
@@ -53,7 +53,7 @@ public class BossListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onEntityDeath(EntityDeathEvent event) {
-        Boss boss = manager.lookup(event.getEntity().getUniqueId());
+        Boss boss = lookup(event.getEntity());
         if (boss != null) {
             manager.unbind(boss);
         }
@@ -69,9 +69,18 @@ public class BossListener implements Listener {
             }
         }
 
-        Boss boss = manager.lookup(damager.getUniqueId());
+        Boss boss = lookup(damager);
         if (boss != null) {
             manager.callDamage(boss, event);
         }
+    }
+
+
+    public Boss lookup(Entity entity) {
+        Boss boss = null;
+        if (entity instanceof LivingEntity) {
+            boss = manager.updateLookup((LivingEntity) entity);
+        }
+        return boss;
     }
 }
