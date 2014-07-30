@@ -49,7 +49,9 @@ public class BossManager extends ProcessedComponent {
 
     public void bind(Boss boss) {
         silentBind(boss);
-        getBindProcessor().processInstructions(new BindCondition(boss));
+        BindCondition bindCondition = new BindCondition(boss);
+        this.getBindProcessor().processInstructions(bindCondition);
+        boss.getBindProcessor().processInstructions(bindCondition);
     }
 
     public void silentBind(Boss boss) {
@@ -58,7 +60,9 @@ public class BossManager extends ProcessedComponent {
 
     public void unbind(Boss boss) {
         silentUnbind(boss);
-        getUnbindProcessor().processInstructions(new UnbindCondition(boss));
+        UnbindCondition unbindCondition = new UnbindCondition(boss);
+        this.getUnbindProcessor().processInstructions(unbindCondition);
+        boss.getUnbindProcessor().processInstructions(unbindCondition);
     }
 
     public void silentUnbind(Boss boss) {
@@ -66,10 +70,14 @@ public class BossManager extends ProcessedComponent {
     }
 
     public void callDamage(Boss boss, EntityDamageByEntityEvent event) {
-        getDamageProcessor().processInstructions(new DamageCondition(boss, event));
+        DamageCondition damageCondition = new DamageCondition(boss, event);
+        this.getDamageProcessor().processInstructions(damageCondition);
+        boss.getDamageProcessor().processInstructions(damageCondition);
     }
 
     public void callDamaged(Boss boss, EntityDamageEvent event) {
-        getDamagedProcessor().processInstructions(new DamagedCondition(boss, event));
+        DamagedCondition damagedCondition = new DamagedCondition(boss, event);
+        this.getDamagedProcessor().processInstructions(damagedCondition);
+        boss.getDamagedProcessor().processInstructions(damagedCondition);
     }
 }
