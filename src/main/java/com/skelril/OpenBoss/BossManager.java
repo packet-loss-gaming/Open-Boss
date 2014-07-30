@@ -41,7 +41,7 @@ public class BossManager extends ProcessedComponent {
 
     public Boss updateLookup(LivingEntity entity) {
         Boss boss = lookup(entity.getUniqueId());
-        if (!entity.equals(boss.getEntity())) {
+        if (boss != null && !entity.equals(boss.getEntity())) {
             boss.setEntity(entity);
         }
         return boss;
