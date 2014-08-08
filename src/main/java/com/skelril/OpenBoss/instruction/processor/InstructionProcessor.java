@@ -40,10 +40,10 @@ public class InstructionProcessor<I extends Instruction<I, C>, C extends Conditi
 
     public void processInstructions(C condition) {
         for (I instruction : instructions) {
-            InstructionResult<?> next;
-            do {
-                next = instruction.process(condition);
-            } while (next != null && next.getNext() != null);
+            InstructionResult<I> next = instruction.process(condition);
+            while (next != null && next.getNext() != null) {
+                next = next.getNext().process(condition);
+            }
 
             // If there is an instruction that reaches this point
             // the next instruction is null. This type of result
