@@ -19,17 +19,21 @@
 
 package com.skelril.OpenBoss;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.entity.LivingEntity;
 
 import java.lang.ref.WeakReference;
+import java.util.UUID;
 
 public class Boss extends ProcessedComponent {
 
     private WeakReference<LivingEntity> entity;
+    private final UUID entityID;
     private final EntityDetail detail;
 
     public Boss(LivingEntity entity, EntityDetail detail) {
         this.entity = new WeakReference<>(entity);
+        this.entityID = entity.getUniqueId();
         this.detail = detail;
     }
 
@@ -38,7 +42,12 @@ public class Boss extends ProcessedComponent {
     }
 
     protected void setEntity(LivingEntity entity) {
+        Validate.isTrue(entity.getUniqueId().equals(entityID));
         this.entity = new WeakReference<>(entity);
+    }
+
+    public UUID getEntityID() {
+        return entityID;
     }
 
     public EntityDetail getDetail() {

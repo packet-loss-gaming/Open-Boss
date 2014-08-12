@@ -55,7 +55,7 @@ public class BossManager extends ProcessedComponent {
     }
 
     public void silentBind(Boss boss) {
-        bosses.put(boss.getEntity().getUniqueId(), boss);
+        bosses.put(boss.getEntityID(), boss);
     }
 
     public void unbind(Boss boss) {
@@ -66,7 +66,7 @@ public class BossManager extends ProcessedComponent {
     }
 
     public void silentUnbind(Boss boss) {
-        bosses.remove(boss.getEntity().getUniqueId());
+        bosses.remove(boss.getEntityID());
     }
 
     public void callDamage(Boss boss, EntityDamageByEntityEvent event) {
