@@ -50,7 +50,7 @@ public class BossListener<T extends Living, K extends EntityDetail> {
     @Listener(order = Order.LAST)
     public void onEntityDeath(DestructEntityEvent.Death event) {
         Optional<Boss<T, K>> boss = lookup(event.getTargetEntity());
-        if (boss != null) {
+        if (boss.isPresent()) {
             manager.unbind(boss.get());
         }
     }
