@@ -10,6 +10,7 @@ import org.apache.commons.lang3.Validate;
 import org.spongepowered.api.entity.living.Living;
 
 import java.lang.ref.WeakReference;
+import java.util.Optional;
 import java.util.UUID;
 
 public class Boss<T extends Living, K extends EntityDetail> extends ProcessedComponent<T, K> {
@@ -24,8 +25,8 @@ public class Boss<T extends Living, K extends EntityDetail> extends ProcessedCom
         this.detail = detail;
     }
 
-    public T getTargetEntity() {
-        return entity.get();
+    public Optional<T> getTargetEntity() {
+        return Optional.ofNullable(entity.get());
     }
 
     protected void setTargetEntity(T entity) {
