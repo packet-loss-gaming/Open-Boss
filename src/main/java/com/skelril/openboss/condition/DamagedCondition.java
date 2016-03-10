@@ -7,9 +7,7 @@
 package com.skelril.openboss.condition;
 
 import com.skelril.openboss.Boss;
-import org.spongepowered.api.entity.living.Living;
 import org.spongepowered.api.event.cause.entity.damage.source.DamageSource;
-import org.spongepowered.api.event.cause.entity.damage.source.DamageSources;
 import org.spongepowered.api.event.entity.DamageEntityEvent;
 
 import java.util.Optional;
@@ -17,16 +15,16 @@ import java.util.Optional;
 public class DamagedCondition extends Condition {
 
     private final DamageEntityEvent event;
-    private final Optional<DamageSource> optAttacker;
+    private final DamageSource attacker;
 
     public DamagedCondition(Boss boss, DamageEntityEvent event) {
         super(boss);
         this.event = event;
-        this.optAttacker = event.getCause().first(DamageSource.class);
+        this.attacker = event.getCause().first(DamageSource.class).orElse(null);
     }
 
     public Optional<DamageSource> getDamageSource() {
-        return optAttacker;
+        return Optional.ofNullable(attacker);
     }
 
     public DamageEntityEvent getEvent() {

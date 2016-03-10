@@ -33,7 +33,7 @@ public class BossManager<T extends Living, K extends EntityDetail> extends Proce
         Optional<Boss<T, K>> optBoss = lookup(entity.getUniqueId());
         if (optBoss.isPresent()) {
             Boss<T, K> boss = optBoss.get();
-            if (!entity.equals(boss.getTargetEntity())) {
+            if (!entity.equals(boss.getTargetEntity().orElse(null))) {
                 boss.setTargetEntity(entity);
             }
         }
