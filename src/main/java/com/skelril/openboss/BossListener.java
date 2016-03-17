@@ -10,6 +10,9 @@ import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.Living;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.Order;
+import org.spongepowered.api.event.cause.entity.damage.source.DamageSource;
+import org.spongepowered.api.event.cause.entity.damage.source.EntityDamageSource;
+import org.spongepowered.api.event.cause.entity.damage.source.IndirectEntityDamageSource;
 import org.spongepowered.api.event.entity.DamageEntityEvent;
 import org.spongepowered.api.event.entity.DestructEntityEvent;
 
@@ -38,11 +41,23 @@ public class BossListener<T extends Living, K extends EntityDetail> {
         }
     }
 
-    private void processDamage(DamageEntityEvent event) {
-        for (Living living : event.getCause().allOf(Living.class)) {
-            Optional<Boss<T, K>> boss = lookup(living);
+    private void processDamage(Entity entity, DamageEntityEvent event) {
+        if (entity instanceof Living) {
+            Optional<Boss<T, K>> boss = lookup(entity);
             if (boss.isPresent()) {
                 manager.callDamage(boss.get(), event.getTargetEntity(), event);
+            }
+        }
+    }
+
+    private void processDamage(DamageEntityEvent event) {
+        for (DamageSource src : event.getCause().allOf(DamageSource.class)) {
+            if (src instanceof EntityDamageSource) {
+                if (src instanceof IndirectEntityDamageSource) {
+                    processDamage(((IndirectEntityDamageSource) src).getIndirectSource(), event);
+                } else {
+                    processDamage(((EntityDamageSource) src).getSource(), event);
+                }
             }
         }
     }
