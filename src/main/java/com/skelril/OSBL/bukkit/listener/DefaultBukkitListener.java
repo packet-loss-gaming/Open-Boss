@@ -19,6 +19,8 @@
 
 package com.skelril.OSBL.bukkit.listener;
 
+import com.destroystokyo.paper.event.entity.EntityAddToWorldEvent;
+import com.destroystokyo.paper.event.entity.EntityRemoveFromWorldEvent;
 import com.skelril.OSBL.bukkit.BukkitBossDeclaration;
 import com.skelril.OSBL.bukkit.entity.BukkitEntity;
 import com.skelril.OSBL.bukkit.util.BukkitAttackDamage;
@@ -90,17 +92,7 @@ public class DefaultBukkitListener<T extends EntityDetail> implements BukkitList
         }
     }
 
-    private LocalControllable<T> getBoss(BukkitEntity entity) {
-        LocalControllable<T> controllable = declaration.getBound(entity);
-        if (controllable == null && declaration.matchesBind(entity)) {
-            entity.getBukkitEntity().remove();
-            declaration.cleanup();
-            return null;
-        }
-        return controllable;
-    }
-
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onEnityDeath(EntityDeathEvent event) {
         Entity dead = event.getEntity();
 
@@ -108,5 +100,38 @@ public class DefaultBukkitListener<T extends EntityDetail> implements BukkitList
         if (boss != null) {
             declaration.unbind(boss);
         }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onEntityAdd(EntityAddToWorldEvent event) {
+        Entity created = event.getEntity();
+
+        // Try and "getBoss" which will rebind this entity if possible.
+        getBoss(new BukkitEntity<>(created));
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onEntityRemove(EntityRemoveFromWorldEvent event) {
+        Entity dead = event.getEntity();
+
+        LocalControllable<T> boss = declaration.getBound(new BukkitEntity<>(dead));
+        if (boss != null) {
+            declaration.silentUnbind(boss);
+        }
+    }
+
+    private LocalControllable<T> getBoss(BukkitEntity entity) {
+        LocalControllable<T> controllable = declaration.getBound(entity);
+        if (controllable == null && declaration.matchesBind(entity)) {
+            // Attempt to rebind/reload the entity.
+            controllable = declaration.tryRebind(entity);
+
+            // If we're still failing to find the entity remove it.
+            if (controllable == null) {
+                entity.getBukkitEntity().remove();
+                return null;
+            }
+        }
+        return controllable;
     }
 }

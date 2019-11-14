@@ -19,7 +19,10 @@
 
 package com.skelril.OSBL.entity;
 
-import com.skelril.OSBL.instruction.*;
+import com.skelril.OSBL.instruction.DamageInstruction;
+import com.skelril.OSBL.instruction.DamagedInstruction;
+import com.skelril.OSBL.instruction.PassiveInstruction;
+import com.skelril.OSBL.instruction.UnbindInstruction;
 
 import java.util.ArrayList;
 import java.util.List;

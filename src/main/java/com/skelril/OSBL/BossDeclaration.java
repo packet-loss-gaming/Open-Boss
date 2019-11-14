@@ -64,6 +64,10 @@ public abstract class BossDeclaration<T extends EntityDetail> {
 
     public abstract boolean matchesBind(LocalEntity entity);
 
+    public LocalControllable<T> tryRebind(LocalEntity entity) {
+        return null;
+    }
+
     public void unbind(LocalControllable<T> controllable) {
         silentUnbind(controllable);
         dispatch.unbind(controllable).process(unbindInstructions);

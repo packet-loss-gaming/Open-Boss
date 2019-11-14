@@ -20,7 +20,6 @@
 package com.skelril.OSBL.bukkit.util;
 
 import com.skelril.OSBL.util.AttackDamage;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 
 public class BukkitAttackDamage extends AttackDamage {
