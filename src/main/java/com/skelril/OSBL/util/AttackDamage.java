@@ -23,4 +23,7 @@ public abstract class AttackDamage {
 
     public abstract double getDamage();
     public abstract boolean setDamage(double damage);
+
+    public abstract boolean isCancelled();
+    public abstract void setCancelled(boolean cancelled);
 }
