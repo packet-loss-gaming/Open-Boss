@@ -2,7 +2,8 @@ apply plugin: 'java'
 apply plugin: 'maven'
 
 sourceCompatibility = 1.8
-version = '1.0'
+group = 'gg.packetloss'
+version = '1.1-SNAPSHOT'
 
 repositories {
     mavenCentral()
