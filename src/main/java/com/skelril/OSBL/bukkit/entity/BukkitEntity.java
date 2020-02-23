@@ -23,6 +23,8 @@ import com.skelril.OSBL.bukkit.util.BukkitUtil;
 import com.skelril.OSBL.entity.LocalEntity;
 import org.bukkit.entity.Entity;
 
+import java.util.UUID;
+
 public class BukkitEntity<T extends Entity> extends LocalEntity {
 
     private T entity;
@@ -33,6 +35,11 @@ public class BukkitEntity<T extends Entity> extends LocalEntity {
 
     public T getBukkitEntity() {
         return entity;
+    }
+
+    @Override
+    public UUID getUUID() {
+        return entity.getUniqueId();
     }
 
     @Override

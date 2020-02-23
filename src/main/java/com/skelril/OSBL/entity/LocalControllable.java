@@ -23,13 +23,14 @@ import com.skelril.OSBL.instruction.DamageInstruction;
 import com.skelril.OSBL.instruction.DamagedInstruction;
 import com.skelril.OSBL.instruction.PassiveInstruction;
 import com.skelril.OSBL.instruction.UnbindInstruction;
+import jdk.internal.jline.internal.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public abstract class LocalControllable<T extends EntityDetail> extends LocalEntity {
-
     private final T detail;
+    private final Map<UUID, Double> damagerMap = new HashMap<>();
 
     /*
      * Binding System Variables
@@ -62,5 +63,24 @@ public abstract class LocalControllable<T extends EntityDetail> extends LocalEnt
      */
     public T getDetail() {
         return detail;
+    }
+
+    public void damaged(@Nullable UUID damager, double damage) {
+        damagerMap.merge(damager, damage, Double::sum);
+    }
+
+    public List<UUID> getDamagers() {
+        return damagerMap.entrySet().stream()
+                .sorted((a, b) -> Double.compare(b.getValue(), a.getValue()))
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+    }
+
+    public Optional<Double> getDamage(UUID damager) {
+        if (damagerMap.containsKey(damager)) {
+            return Optional.of(damagerMap.get(damager));
+        }
+
+        return Optional.empty();
     }
 }

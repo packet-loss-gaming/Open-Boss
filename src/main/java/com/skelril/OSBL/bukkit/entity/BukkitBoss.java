@@ -24,6 +24,8 @@ import com.skelril.OSBL.entity.EntityDetail;
 import com.skelril.OSBL.entity.interfaces.Boss;
 import org.bukkit.entity.Damageable;
 
+import java.util.UUID;
+
 public class BukkitBoss<T extends EntityDetail> extends BukkitControllable<T> implements Boss {
 
     public BukkitBoss(Damageable boss, T detail) {

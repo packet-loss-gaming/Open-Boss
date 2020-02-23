@@ -28,6 +28,8 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 
+import java.util.UUID;
+
 public abstract class BukkitControllable<T extends EntityDetail> extends LocalControllable<T> {
 
     protected Damageable controlled;
@@ -35,6 +37,11 @@ public abstract class BukkitControllable<T extends EntityDetail> extends LocalCo
     public BukkitControllable(Damageable controlled, T detail) {
         super(detail);
         this.controlled = controlled;
+    }
+
+    @Override
+    public UUID getUUID() {
+        return controlled.getUniqueId();
     }
 
     @Override

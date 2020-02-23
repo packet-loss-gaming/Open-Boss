@@ -96,6 +96,11 @@ public abstract class BossDeclaration<T extends EntityDetail> {
     }
 
     public void damaged(LocalControllable<T> defender, DamageSource damager, AttackDamage damage) {
+        LocalEntity damagingEntity = damager.getDamagingEntity();
+        if (damagingEntity != null) {
+            defender.damaged(damagingEntity.getUUID(), damage.getDamage());
+        }
+
         dispatch.damaged(defender, damager, damage).process(damagedInstructions);
         dispatch.damaged(defender, damager, damage).process(defender.damagedInstructions);
     }

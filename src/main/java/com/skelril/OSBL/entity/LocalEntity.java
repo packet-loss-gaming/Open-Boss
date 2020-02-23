@@ -19,7 +19,11 @@
 
 package com.skelril.OSBL.entity;
 
+import java.util.UUID;
+
 public abstract class LocalEntity {
+
+    public abstract UUID getUUID();
 
     /*
      * General Inquiry
