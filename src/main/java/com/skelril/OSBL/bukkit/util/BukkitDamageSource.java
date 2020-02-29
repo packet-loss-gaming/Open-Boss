@@ -60,7 +60,7 @@ public class BukkitDamageSource extends DamageSource {
 
     @Override
     public LocalEntity getDamagingEntity() {
-        return new BukkitEntity<>(damagingEntity);
+        return damagingEntity == null ? null : new BukkitEntity<>(damagingEntity);
     }
 
     @Override
@@ -70,6 +70,6 @@ public class BukkitDamageSource extends DamageSource {
 
     @Override
     public LocalBlock getDamagingBlock() {
-        return new BukkitBlock(damagingBlock);
+        return damagingBlock == null ? null : new BukkitBlock(damagingBlock);
     }
 }
