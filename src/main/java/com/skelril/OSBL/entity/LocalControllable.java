@@ -23,8 +23,8 @@ import com.skelril.OSBL.instruction.DamageInstruction;
 import com.skelril.OSBL.instruction.DamagedInstruction;
 import com.skelril.OSBL.instruction.PassiveInstruction;
 import com.skelril.OSBL.instruction.UnbindInstruction;
-import jdk.internal.jline.internal.Nullable;
 
+import javax.annotation.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
