@@ -36,14 +36,16 @@ import org.bukkit.event.entity.EntityDamageByBlockEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.projectiles.ProjectileSource;
 
 public class DefaultBukkitListener<T extends EntityDetail> implements BukkitListener {
 
+    private final Plugin declarer;
     private BukkitBossDeclaration<T> declaration;
 
-    public DefaultBukkitListener(BukkitBossDeclaration<T> declaration) {
-        assert declaration != null;
+    public DefaultBukkitListener(Plugin declarer, BukkitBossDeclaration<T> declaration) {
+        this.declarer = declarer;
         this.declaration = declaration;
     }
 
@@ -106,8 +108,12 @@ public class DefaultBukkitListener<T extends EntityDetail> implements BukkitList
     public void onEntityAdd(EntityAddToWorldEvent event) {
         Entity created = event.getEntity();
 
-        // Try and "getBoss" which will rebind this entity if possible.
-        getBoss(new BukkitEntity<>(created));
+        BukkitEntity<?> boss = new BukkitEntity<>(created);
+        // Rebind if this is an unbound controllable.
+        if (isUnboundControllable(boss)) {
+            // Delay to avoid possible concurrent modification during entity processing.
+            declarer.getServer().getScheduler().runTask(declarer, () -> declaration.tryRebind(boss));
+        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -115,14 +121,24 @@ public class DefaultBukkitListener<T extends EntityDetail> implements BukkitList
         Entity dead = event.getEntity();
 
         LocalControllable<T> boss = declaration.getBound(new BukkitEntity<>(dead));
+        // Unbind if this is a bound controllable.
         if (boss != null) {
-            declaration.silentUnbind(boss);
+            // Delay to avoid possible concurrent modification during entity processing.
+            declarer.getServer().getScheduler().runTask(declarer, () -> declaration.silentUnbind(boss));
         }
     }
 
-    private LocalControllable<T> getBoss(BukkitEntity entity) {
+    private boolean isUnboundControllable(BukkitEntity<?> entity, LocalControllable<T> controllable) {
+        return controllable == null && declaration.matchesBind(entity);
+    }
+
+    private boolean isUnboundControllable(BukkitEntity<?> entity) {
+        return isUnboundControllable(entity, declaration.getBound(entity));
+    }
+
+    private LocalControllable<T> getBoss(BukkitEntity<?> entity) {
         LocalControllable<T> controllable = declaration.getBound(entity);
-        if (controllable == null && declaration.matchesBind(entity)) {
+        if (isUnboundControllable(entity, controllable)) {
             // Attempt to rebind/reload the entity.
             controllable = declaration.tryRebind(entity);
 
